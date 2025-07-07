@@ -40,10 +40,9 @@ Tudo isso para oferecer uma visão clara e eficiente de como o seu dinheiro est�
 
 ## ⚙️ Tecnologias Utilizadas
 
-- Python / Django
+- Java Spring
 - Banco de Dados: PostgreSQL
 - HTML5, CSS3 e JavaScript
-- Bootstrap
 
 ---
 
@@ -59,10 +58,4 @@ cd meu-dinheiro
 # Instale as dependências
 pip install -r requirements.txt
 
-# Execute as migrações
-python manage.py migrate
 
-# Inicie o servidor
-python manage.py runserver
-
-# Acesse em http://localhost:8000
