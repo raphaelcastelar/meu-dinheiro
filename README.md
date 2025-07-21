@@ -10,7 +10,7 @@
 - Categorizar cada lançamento
 - Gerar e visualizar relatórios mensais detalhados
 
-Tudo isso para oferecer uma visão clara e eficiente de como o seu dinheiro está sendo utilizado.
+Tudo isso para oferecer uma visão clara e eficiente de como o seu dinheiro está sendo utilizado
 
 ---
 
