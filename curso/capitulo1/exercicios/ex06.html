@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+ 
+   <input type="text"  " id="input-text">
+    Você está digitando "<span id="typed"></span>";.
+
+  </body>
+
+  <script>
+    window.onload = function () {
+      const input = document.getElementById("input-text");
+      const output = document.getElementById("typed");
+
+      input.addEventListener("input", function () {
+        output.textContent = input.value;
+      });
+    };
+  </script>
+</html>
