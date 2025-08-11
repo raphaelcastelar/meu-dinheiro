@@ -11,21 +11,21 @@ public class UserController {
     
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
-        return "user/dashboard";
+        return "dashboard.html";
     }
     
     @GetMapping("/receipts")
     public String showReceipts(Model model) {
-        return "user/receipts";
+        return "receipts.html";
     }
     
     @GetMapping("/expenses")
     public String showExpenses(Model model) {
-        return "user/expenses";
+        return "expenses.html";
     }
     
     @GetMapping("/categories")
     public String showCategories(Model model) {
-        return "user/categories";
+        return "categories.html";
     }
 }

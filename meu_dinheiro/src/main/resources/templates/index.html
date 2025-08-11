@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-BR"
-xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="#{app.title}">App Title</title>
+    <title th:text="#{app.title}">Meu Dinheiro</title>
 </head>
 <body>
-
-    <h1 th:text="#{app.welcome(${nome})}">Bem-vindo ao App</h1>
+    <h1 th:text="#{app.welcome(${nome})}">Bem-vindo(a) ao Meu Dinheiro</h1>
+    <a th:href="@{/principal/logout}" th:text="#{app.logout}">Sair</a>
 
     <h2>Resumo financeiro</h2>
     <ul>
@@ -18,5 +17,16 @@ xmlns:th="http://www.thymeleaf.org">
         <li><span th:text="#{app.usuario.meta(${metaEconomia})}">Meta</span></li>
     </ul>
 
+    <h3>Navegação</h3>
+    <ul>
+        <li><a th:href="@{/user/dashboard}">Dashboard do Usuário</a></li>
+        <li><a th:href="@{/user/receipts}">Minhas Receitas</a></li>
+        <li><a th:href="@{/user/expenses}">Minhas Despesas</a></li>
+        <li><a th:href="@{/user/categories}">Minhas Categorias</a></li>
+
+        <li><a th:href="@{/admin/dashboard}">Dashboard do Administrador</a></li>
+        <li><a th:href="@{/admin/manage-users}">Gerenciar Usuários</a></li>
+        <li><a th:href="@{/admin/reports}">Relatórios</a></li>
+    </ul>
 </body>
 </html>

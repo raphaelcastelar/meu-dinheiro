@@ -11,16 +11,16 @@ public class AdminController {
     
     @GetMapping("/dashboard")
     public String showAdminDashboard(Model model) {
-        return "admin/dashboard";
+        return "dashboardAdmin.html";
     }
     
     @GetMapping("/manage-users")
     public String manageUsers(Model model) {
-        return "admin/manage-users";
+        return "manage_users.html";
     }
     
     @GetMapping("/reports")
     public String showReports(Model model) {
-        return "admin/reports";
+        return "reports.html";
     }
 }
