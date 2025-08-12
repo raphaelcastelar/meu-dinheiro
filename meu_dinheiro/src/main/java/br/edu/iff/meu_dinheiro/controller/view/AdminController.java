@@ -1,4 +1,4 @@
-package br.edu.iff.meu_dinheiro.controller;
+package br.edu.iff.meu_dinheiro.controller.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
