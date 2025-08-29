@@ -1,17 +1,18 @@
 package br.edu.iff.meu_dinheiro.entities;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+
+
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
-
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 
 @Entity
-public class expenses implements Serializable {
+public class Despesa implements Serializable {
+
 
     private static final long serialVersionUID = 1L;
     private Long id;
@@ -25,54 +26,38 @@ public class expenses implements Serializable {
     private Double valor;
 
     @NotEmpty(message = "A data não pode ser nula.")
-    private LocalDate data;
+    private String data;
 
     @NotBlank(message = "A categoria não pode ser vazia.")
     @Size(min = 3, max = 100, message = "A categoria deve ter entre 3 e 100 caracteres.")
-    private String categoria;
+    private Categoria categoria;
 
-    public expenses() {
-    }
+    public Despesa() {}
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
+    public Despesa(Long id, String descricao, Double valor, Categoria categoria, String data) {
         this.id = id;
+        this.descricao = descricao;
+        this.valor = valor;
+        this.categoria = categoria;
+        this.data = data;
     }
 
-    public String getDescription() {
-        return descricao;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setDescription(String description) {
-        this.descricao = description;
-    }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
 
-    public Double getValue() {
-        return valor;
-    }
+    public Double getValor() { return valor; }
+    public void setValor(Double valor) { this.valor = valor; }
 
-    public void setValue(Double value) {
-        this.valor = value;
-    }
+    public Categoria getCategoria() { return categoria; }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 
-    public LocalDate getDate() {
-        return data;
-    }
+    public String getData() { return data; }
+    public void setData(String data) { this.data = data; }
 
-    public void setDate(LocalDate date) {
-        this.data = date;
-    }
-
-    public String getCategory() {
-        return categoria;
-    }
-
-    public void setCategory(String category) {
-        this.categoria = category;
-    }
+    
 
     @Override
     public int hashCode() {
@@ -94,7 +79,7 @@ public class expenses implements Serializable {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        expenses other = (expenses) obj;
+        Despesa other = (Despesa) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

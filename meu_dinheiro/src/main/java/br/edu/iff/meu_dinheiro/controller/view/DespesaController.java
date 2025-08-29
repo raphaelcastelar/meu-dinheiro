@@ -10,41 +10,43 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.validation.annotation.Validated;
-import br.edu.iff.meu_dinheiro.entities.expenses;
-import br.edu.iff.meu_dinheiro.service.ExpensesService;
+
+import br.edu.iff.meu_dinheiro.entities.Despesa;
+import br.edu.iff.meu_dinheiro.service.DespesaService;
 
 @Controller
 @RequestMapping("/expenses")
-public class ExpensesController {
+public class DespesaController {
 
-    private final ExpensesService expensesService;
+    private final DespesaService expensesService;
 
-    public ExpensesController(ExpensesService expensesService) {
+    public DespesaController(DespesaService expensesService) {
         this.expensesService = expensesService;
     }
 
     @GetMapping
     public String listExpenses(Model model) {
-        List<expenses> expenses = expensesService.findAll();
+        List<Despesa> expenses = expensesService.findAll(); // ✅ usa instância injetada
         model.addAttribute("expenses", expenses);
         return "expenses/list";
     }
 
     @GetMapping("/new")
     public String showNewExpenseForm(Model model) {
-        model.addAttribute("expense", new expenses());
+        model.addAttribute("expense", new Despesa());
         return "expenses/form";
     }
 
     @PostMapping
-    public String saveExpense(@Validated @ModelAttribute("expense") expenses expense, BindingResult result, Model model) {
+    public String saveExpense(@Validated @ModelAttribute("expense") Despesa expense,
+                              BindingResult result,
+                              Model model) {
         if (result.hasErrors()) {
             return "expenses/form";
         }
-        expensesService.save(expense);
+        expensesService.save(expense); // ✅ usa instância injetada
         return "redirect:/expenses";
     }
-
 
     @GetMapping("/delete/{id}")
     public String deleteExpense(@PathVariable Long id) {

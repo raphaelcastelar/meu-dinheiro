@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping(path = "/user")
-public class UserController {
+public class UsuarioController {
     
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
