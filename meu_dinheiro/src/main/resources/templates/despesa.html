@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${pageTitle} + ' - Meu Dinheiro'">Despesa - Meu Dinheiro</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base_template :: baseHead}"></head>
+
 <body>
-    <div th:replace="~{base_template :: header}"></div>
+    <header th:replace="~{base_template :: baseHeaderPage}"></header>
 
-    <div th:replace="~{base_template :: content(mainTitle='Gerenciar Despesas', subTitle='Adicione ou edite despesas abaixo.')}"></div>
+    <div class="main-content">
+        <div th:with="mainTitle=${'Gerenciar Despesas - ' + (userName ?: 'Usuário')}, subTitle='Adicione ou edite despesas abaixo.'"
+             th:replace="~{base_template :: content(mainTitle=${mainTitle}, subTitle=${subTitle})}"></div>
+    </div>
 
-    <div th:if="${expense != null}" th:replace="~{base_template :: form-section(formTitle='Nova Despesa', routePrefix='expenses', item=${expense})}"></div>
+    <div class="form-section">
+        <div th:with="formTitle='Nova Despesa', routePrefix='expenses', item=${expense != null ? expense : #objects.instantiate('br.edu.iff.meu_dinheiro.entities.Despesa')}"
+             th:replace="~{base_template :: form-section(formTitle=${formTitle}, routePrefix=${routePrefix}, item=${item})}"></div>
+    </div>
 
-    <div th:replace="~{base_template :: table-section(routePrefix='expenses', items=${expenses})}"></div>
+    <div class="table-section">
+        <div th:with="routePrefix='expenses', items=${expenses != null ? expenses : T(java.util.Collections).emptyList()}"
+             th:replace="~{base_template :: table-section(routePrefix=${routePrefix}, items=${items})}"></div>
+    </div>
 
-    <div th:replace="~{base_template :: footer}"></div>
+    <footer th:replace="~{base_template :: baseFooter}"></footer>
 </body>
 </html>

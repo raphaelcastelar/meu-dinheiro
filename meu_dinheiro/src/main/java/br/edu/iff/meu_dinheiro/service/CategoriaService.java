@@ -17,10 +17,16 @@ public class CategoriaService {
         categorias.add(new Categoria(3L, "Contas Fixas"));
     }
 
-    public List<Categoria> findAll() { return new ArrayList<>(categorias); }
+    public List<Categoria> findAll() {
+        return new ArrayList<>(categorias);
+    }
+
     public void save(Categoria categoria) {
         if (categoria.getId() == null) {
             categoria.setId(nextId++);
+            categorias.add(categoria);
+        } else {
+            categorias.removeIf(c -> c.getId().equals(categoria.getId()));
             categorias.add(categoria);
         }
     }

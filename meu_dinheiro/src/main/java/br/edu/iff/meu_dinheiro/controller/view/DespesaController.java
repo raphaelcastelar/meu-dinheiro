@@ -1,6 +1,7 @@
 package br.edu.iff.meu_dinheiro.controller.view;
 
-import java.util.List;
+import br.edu.iff.meu_dinheiro.entities.Despesa;
+import br.edu.iff.meu_dinheiro.service.DespesaService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,47 +11,45 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.validation.annotation.Validated;
-
-import br.edu.iff.meu_dinheiro.entities.Despesa;
-import br.edu.iff.meu_dinheiro.service.DespesaService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/expenses")
 public class DespesaController {
+    private final DespesaService despesaService;
 
-    private final DespesaService expensesService;
-
-    public DespesaController(DespesaService expensesService) {
-        this.expensesService = expensesService;
+    public DespesaController(DespesaService despesaService) {
+        this.despesaService = despesaService;
     }
 
     @GetMapping
-    public String listExpenses(Model model) {
-        List<Despesa> expenses = expensesService.findAll(); // ✅ usa instância injetada
-        model.addAttribute("expenses", expenses);
-        return "expenses/list";
+    public String listExpenses(@RequestParam(required = false) String nome, Model model) {
+        model.addAttribute("pageTitle", "Despesas");
+        model.addAttribute("expenses", despesaService.findAll());
+        model.addAttribute("userName", nome != null ? nome : "Usuário");
+        return "despesa";
     }
 
     @GetMapping("/new")
-    public String showNewExpenseForm(Model model) {
+    public String showNewExpenseForm(@RequestParam(required = false) String nome, Model model) {
+        model.addAttribute("pageTitle", "Nova Despesa");
         model.addAttribute("expense", new Despesa());
-        return "expenses/form";
+        model.addAttribute("userName", nome != null ? nome : "Usuário");
+        return "despesa";
     }
 
     @PostMapping
-    public String saveExpense(@Validated @ModelAttribute("expense") Despesa expense,
-                              BindingResult result,
-                              Model model) {
+    public String saveExpense(@Validated @ModelAttribute("expense") Despesa expense, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            return "expenses/form";
+            return "despesa";
         }
-        expensesService.save(expense); // ✅ usa instância injetada
+        despesaService.save(expense);
         return "redirect:/expenses";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteExpense(@PathVariable Long id) {
-        expensesService.deleteById(id);
-        return "redirect:/expenses";
+    public String deleteExpense(@PathVariable Long id, @RequestParam(required = false) String nome) {
+        despesaService.deleteById(id);
+        return "redirect:/expenses?nome=" + (nome != null ? nome : "Usuário");
     }
 }

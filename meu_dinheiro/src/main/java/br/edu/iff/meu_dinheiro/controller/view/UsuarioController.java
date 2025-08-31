@@ -14,18 +14,18 @@ public class UsuarioController {
         return "dashboard.html";
     }
     
-    @GetMapping("/receipts")
+    @GetMapping("/receita")
     public String showReceipts(Model model) {
-        return "receipts.html";
+        return "receita.html";
     }
     
-    @GetMapping("/expenses")
+    @GetMapping("/despesa")
     public String showExpenses(Model model) {
-        return "expenses.html";
+        return "despesa.html";
     }
     
-    @GetMapping("/categories")
+    @GetMapping("/categoria")
     public String showCategories(Model model) {
-        return "categories.html";
+        return "categoria.html";
     }
 }

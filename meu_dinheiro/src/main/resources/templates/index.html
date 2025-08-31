@@ -6,7 +6,7 @@
     <title th:text="#{app.title}">Meu Dinheiro</title>
 </head>
 <body>
-    <h1 th:text="#{app.welcome(${nome})}">Bem-vindo(a) ao Meu Dinheiro</h1>
+    <h1 th:text="#{app.welcome(${userName})}">Bem-vindo(a) ao Meu Dinheiro</h1>
     <a th:href="@{/principal/logout}" th:text="#{app.logout}">Sair</a>
 
     <h2>Resumo financeiro</h2>
@@ -21,8 +21,8 @@
     <ul>
         <li><a th:href="@{/user/dashboard}">Dashboard do Usuário</a></li>
         <li><a th:href="@{/user/receipts}">Minhas Receitas</a></li>
-        <li><a th:href="@{/user/expenses}">Minhas Despesas</a></li>
-        <li><a th:href="@{/user/categories}">Minhas Categorias</a></li>
+        <li><a th:href="@{/despesa}">Minhas Despesas</a></li>
+        <li><a th:href="@{/categoria(nome=${userName})}">Minhas Categorias</a></li>
 
         <li><a th:href="@{/admin/dashboard}">Dashboard do Administrador</a></li>
         <li><a th:href="@{/admin/manage-users}">Gerenciar Usuários</a></li>
