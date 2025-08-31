@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title th:text="${pageTitle} + ' - Meu Dinheiro'">Despesa - Meu Dinheiro</title>
 </head>
 <body>
-    
+    <div th:replace="~{base_template :: header}"></div>
+
+    <div th:replace="~{base_template :: content(mainTitle='Gerenciar Despesas', subTitle='Adicione ou edite despesas abaixo.')}"></div>
+
+    <div th:if="${expense != null}" th:replace="~{base_template :: form-section(formTitle='Nova Despesa', routePrefix='expenses', item=${expense})}"></div>
+
+    <div th:replace="~{base_template :: table-section(routePrefix='expenses', items=${expenses})}"></div>
+
+    <div th:replace="~{base_template :: footer}"></div>
 </body>
 </html>

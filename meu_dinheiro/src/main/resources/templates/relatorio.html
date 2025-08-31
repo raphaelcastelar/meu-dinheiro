@@ -1,11 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title th:text="${pageTitle} + ' - Meu Dinheiro'">Relatório - Meu Dinheiro</title>
 </head>
 <body>
-    
+    <div th:replace="~{base_template :: header}"></div>
+
+    <div th:replace="~{base_template :: content(mainTitle='Relatório Mensal', subTitle='Visualize o resumo financeiro do período selecionado.')}"></div>
+
+    <div class="content">
+        <h2>Resumo Financeiro - <span th:text="${monthlyReport.mesAno}"></span></h2>
+        <table>
+            <tr>
+                <th>Total de Receitas</th>
+                <td th:text="${'#{' + 'R$ ' + monthlyReport.totalReceitas + '}'}">R$ 0.00</td>
+            </tr>
+            <tr>
+                <th>Total de Despesas</th>
+                <td th:text="${'#{' + 'R$ ' + monthlyReport.totalDespesas + '}'}">R$ 0.00</td>
+            </tr>
+            <tr>
+                <th>Saldo</th>
+                <td th:text="${'#{' + 'R$ ' + monthlyReport.saldo + '}'}">R$ 0.00</td>
+            </tr>
+        </table>
+        <p><a th:href="@{/relatorio(mesAno=${#temporals.format(#dates.createNow(), 'yyyy-MM')})}">Atualizar para o Mês Atual</a></p>
+    </div>
+
+    <div th:replace="~{base_template :: footer}"></div>
 </body>
 </html>
