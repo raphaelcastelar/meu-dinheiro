@@ -22,7 +22,7 @@ public class HomeController {
     @GetMapping
     public String showHome(@RequestParam(required = false) String nome, Model model) {
         // Define um nome padrão
-        String defaultName = "Joãoo";
+        String defaultName = "João";
         model.addAttribute("pageTitle", "Início");
         model.addAttribute("expenses", despesaService.findAll());
         model.addAttribute("revenues", receitaService.findAll());
