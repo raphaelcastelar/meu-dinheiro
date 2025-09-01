@@ -11,7 +11,7 @@
         <!-- Formulário para adicionar item temporário -->
         <div class="card mt-6" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem;">
             <h3 class="text-xl font-semibold text-gray-700 mb-4" style="color: #374151;">Adicionar Nova Receita</h3>
-            <form th:action="@{/receita/add-temp}" method="post" class="space-y-6">
+            <form id="formReceita" class="space-y-6">
                 <div>
                     <label for="descricao" class="block text-sm font-medium text-gray-600" style="color: #4b5563;">Descrição</label>
                     <input type="text" id="descricao" name="descricao" class="mt-2 p-3 w-full border rounded-md" style="border-color: #d1d5db; border-radius: 6px; font-size: 1rem; padding: 0.75rem;" placeholder="Ex.: Salário" required>
@@ -28,11 +28,55 @@
 
         <!-- Tabela de Receitas -->
         <div class="table-section mt-6" id="tableSection" style="margin-top: 1.5rem;">
-            <div th:with="tableRoutePrefix='receitas', tableItems=${receitas != null ? receitas : T(java.util.Collections).emptyList()}"
-                 th:replace="~{base_template :: table-section(routePrefix=${tableRoutePrefix}, items=${tableItems})}"></div>
+            <table id="tabelaReceitas" class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr style="background-color: #e5e7eb;">
+                        <th class="border border-gray-300 px-4 py-2">Descrição</th>
+                        <th class="border border-gray-300 px-4 py-2">Valor (R$)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As receitas adicionadas vão aparecer aqui -->
+                </tbody>
+            </table>
         </div>
     </div>
 
     <footer th:replace="~{base_template :: baseFooter}"></footer>
+
+    <script>
+        document.getElementById("formReceita").addEventListener("submit", function(event) {
+            event.preventDefault(); // impede o reload da página
+
+            const descricao = document.getElementById("descricao").value;
+            const valor = document.getElementById("valor").value;
+
+            if (descricao && valor) {
+                const tabela = document.getElementById("tabelaReceitas").querySelector("tbody");
+
+                // cria nova linha
+                const novaLinha = document.createElement("tr");
+
+                // cria colunas
+                const tdDescricao = document.createElement("td");
+                tdDescricao.textContent = descricao;
+                tdDescricao.className = "border border-gray-300 px-4 py-2";
+
+                const tdValor = document.createElement("td");
+                tdValor.textContent = "R$ " + parseFloat(valor).toFixed(2);
+                tdValor.className = "border border-gray-300 px-4 py-2";
+
+                // adiciona colunas na linha
+                novaLinha.appendChild(tdDescricao);
+                novaLinha.appendChild(tdValor);
+
+                // adiciona linha na tabela
+                tabela.appendChild(novaLinha);
+
+                // limpa inputs
+                document.getElementById("formReceita").reset();
+            }
+        });
+    </script>
 </body>
 </html>
