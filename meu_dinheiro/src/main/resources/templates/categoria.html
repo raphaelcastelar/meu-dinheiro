@@ -6,8 +6,7 @@
     <header th:replace="~{base_template :: baseHeaderPage}"></header>
 
     <div class="main-content">
-        <div th:with="mainTitle=${'Gerenciar Categorias - ' + (userName ?: 'Usuário')}, subTitle='Adicione ou edite categorias abaixo.'"
-             th:replace="~{base_template :: content(mainTitle=${mainTitle}, subTitle=${subTitle})}"></div>
+        <div th:replace="~{base_template :: content(mainTitle='Categorias', subTitle='Visualize as categorias existentes ou adicione uma.')}"></div>
     </div>
 
     <div class="form-section">

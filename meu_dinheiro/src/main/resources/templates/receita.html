@@ -6,8 +6,7 @@
     <header th:replace="~{base_template :: baseHeaderPage}"></header>
 
     <div class="main-content max-w-5xl mx-auto p-6" style="background-color: #f3f4f6; font-family: 'Arial', sans-serif;">
-        <div th:with="mainTitle=${'Minhas Receitas - ' + (userName ?: 'Usuário')}, subTitle='Adicione, visualize e gerencie suas receitas aqui.'"
-             th:replace="~{base_template :: content(mainTitle=${mainTitle}, subTitle=${subTitle})}"></div>
+        <div th:replace="~{base_template :: content(mainTitle='Receita Mensal', subTitle='Visualize o resumo financeiro.')}"></div>
 
         <!-- Formulário para adicionar item temporário -->
         <div class="card mt-6" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem;">
@@ -35,6 +34,5 @@
     </div>
 
     <footer th:replace="~{base_template :: baseFooter}"></footer>
-</script>
 </body>
 </html>

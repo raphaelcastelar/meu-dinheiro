@@ -6,8 +6,7 @@
     <header th:replace="~{base_template :: baseHeaderPage}"></header>
 
     <div class="main-content">
-        <div th:with="mainTitle=${'Gerenciar Despesas - ' + (userName ?: 'João')}, subTitle='Adicione ou edite despesas abaixo.'"
-             th:replace="~{base_template :: content(mainTitle=${mainTitle}, subTitle=${subTitle})}"></div>
+        <div th:replace="~{base_template :: content(mainTitle='Despesa Mensal', subTitle='Visualize o resumo financeiro.')}"></div>
     </div>
 
     <div class="form-section">
