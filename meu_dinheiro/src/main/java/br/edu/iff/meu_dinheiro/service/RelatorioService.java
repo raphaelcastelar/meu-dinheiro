@@ -1,7 +1,8 @@
 package br.edu.iff.meu_dinheiro.service;
 
-import br.edu.iff.meu_dinheiro.entities.MonthlyReport;
 import org.springframework.stereotype.Service;
+
+import br.edu.iff.meu_dinheiro.MonthlyReport;
 
 @Service
 public class RelatorioService {

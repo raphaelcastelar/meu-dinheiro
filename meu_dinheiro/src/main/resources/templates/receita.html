@@ -5,16 +5,72 @@
 <body>
     <header th:replace="~{base_template :: baseHeaderPage}"></header>
 
-    <div class="main-content">
-        <div th:with="mainTitle=${'Gerenciar Receitas - ' + (userName ?: 'Usuário')}, subTitle='Visualize e gerencie suas receitas abaixo.'"
+    <div class="main-content max-w-5xl mx-auto p-6" style="background-color: #f3f4f6; font-family: 'Arial', sans-serif;">
+        <div th:with="mainTitle=${'Minhas Receitas - ' + (userName ?: 'Usuário')}, subTitle='Adicione, visualize e gerencie suas receitas aqui.'"
              th:replace="~{base_template :: content(mainTitle=${mainTitle}, subTitle=${subTitle})}"></div>
-    </div>
 
-    <div class="table-section">
-        <div th:with="tableRoutePrefix='receitas', tableItems=${receitas != null ? receitas : T(java.util.Collections).emptyList()}"
-             th:replace="~{base_template :: table-section(routePrefix=${tableRoutePrefix}, items=${tableItems})}"></div>
+        <!-- Formulário para adicionar item temporário -->
+        <div class="card mt-6" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem;">
+            <h3 class="text-xl font-semibold text-gray-700 mb-4" style="color: #374151;">Adicionar Nova Receita</h3>
+            <form th:action="@{/receita/add-temp}" method="post" class="space-y-6">
+                <div>
+                    <label for="descricao" class="block text-sm font-medium text-gray-600" style="color: #4b5563;">Descrição</label>
+                    <input type="text" id="descricao" name="descricao" class="mt-2 p-3 w-full border rounded-md" style="border-color: #d1d5db; border-radius: 6px; font-size: 1rem; padding: 0.75rem;" placeholder="Ex.: Salário" required>
+                </div>
+                <div>
+                    <label for="valor" class="block text-sm font-medium text-gray-600" style="color: #4b5563;">Valor (R$)</label>
+                    <input type="number" id="valor" name="valor" step="0.01" class="mt-2 p-3 w-full border rounded-md" style="border-color: #d1d5db; border-radius: 6px; font-size: 1rem; padding: 0.75rem;" placeholder="0.00" required>
+                </div>
+                <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" style="background-color: #3b82f6; color: white; border-radius: 6px; padding: 0.625rem 1.5rem; font-size: 1rem;">
+                    Adicionar Receita
+                </button>
+            </form>
+        </div>
+
+        <!-- Tabela de Receitas -->
+        <div class="table-section mt-6" id="tableSection" style="margin-top: 1.5rem;">
+            <div th:with="tableRoutePrefix='receitas', tableItems=${receitas != null ? receitas : T(java.util.Collections).emptyList()}"
+                 th:replace="~{base_template :: table-section(routePrefix=${tableRoutePrefix}, items=${tableItems})}"></div>
+        </div>
     </div>
 
     <footer th:replace="~{base_template :: baseFooter}"></footer>
+
+    <!-- Script para simulação temporária -->
+    <script th:inline="javascript">
+    // Inicializa variáveis a partir do Thymeleaf
+    const tableRoutePrefix = /*[[${tableRoutePrefix}]]*/ 'receitas';
+    let tableItems = /*[[${receitas}]]*/ [] || [];
+    if (!Array.isArray(tableItems)) tableItems = [];
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const descricao = document.getElementById('descricao').value;
+        const valor = parseFloat(document.getElementById('valor').value) || 0.0;
+        if (descricao && valor > 0) {
+            const tempItem = { descricao: descricao, valor: valor };
+            tableItems.unshift(tempItem); // Adiciona o novo item no início
+            const tableSection = document.getElementById('tableSection');
+
+            // Chama o servidor para re-renderizar a tabela
+            fetch('/user/receita/update-table', { // Confirme que esta rota está correta
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tableItems: tableItems })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                return response.text();
+            })
+            .then(html => {
+                tableSection.innerHTML = html;
+            })
+            .catch(error => console.error('Erro ao atualizar tabela:', error));
+
+            document.getElementById('descricao').value = '';
+            document.getElementById('valor').value = '';
+        }
+    });
+</script>
 </body>
 </html>

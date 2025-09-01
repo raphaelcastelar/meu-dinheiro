@@ -6,8 +6,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import br.edu.iff.meu_dinheiro.MonthlyReport;
 import br.edu.iff.meu_dinheiro.service.RelatorioService;
-import br.edu.iff.meu_dinheiro.entities.MonthlyReport;
 
 @Controller
 @RequestMapping("/relatorio")

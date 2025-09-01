@@ -1,4 +1,4 @@
-package br.edu.iff.meu_dinheiro.entities;
+package br.edu.iff.meu_dinheiro;
 
 public class MonthlyReport {
     private String mesAno;
