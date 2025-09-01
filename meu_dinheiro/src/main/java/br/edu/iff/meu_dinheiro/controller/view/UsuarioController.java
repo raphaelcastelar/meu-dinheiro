@@ -9,9 +9,9 @@ import org.springframework.ui.Model;
 @RequestMapping(path = "/user")
 public class UsuarioController {
     
-    @GetMapping("/dashboard")
+    @GetMapping("/relatorio")
     public String showDashboard(Model model) {
-        return "dashboard.html";
+        return "relatorio.html";
     }
     
     @GetMapping("/receita")

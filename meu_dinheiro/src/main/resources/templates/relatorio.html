@@ -1,34 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${pageTitle} + ' - Meu Dinheiro'">Relatório - Meu Dinheiro</title>
-</head>
-<body>
-    <div th:replace="~{base_template :: header}"></div>
+<head th:replace="~{base_template :: baseHead}"></head>
 
+<body>
     <div th:replace="~{base_template :: content(mainTitle='Relatório Mensal', subTitle='Visualize o resumo financeiro do período selecionado.')}"></div>
 
     <div class="content">
-        <h2>Resumo Financeiro - <span th:text="${monthlyReport.mesAno}"></span></h2>
+        <h2>Resumo Financeiro - <span th:text="${monthlyReport?.mesAno ?: 'N/A'}"></span></h2>
         <table>
             <tr>
                 <th>Total de Receitas</th>
-                <td th:text="${'#{' + 'R$ ' + monthlyReport.totalReceitas + '}'}">R$ 0.00</td>
+                <td th:text="${'#{' + 'R$ ' + (monthlyReport?.totalReceitas ?: 0.0) + '}'}">R$ 0.00</td>
             </tr>
             <tr>
                 <th>Total de Despesas</th>
-                <td th:text="${'#{' + 'R$ ' + monthlyReport.totalDespesas + '}'}">R$ 0.00</td>
+                <td th:text="${'#{' + 'R$ ' + (monthlyReport?.totalDespesas ?: 0.0) + '}'}">R$ 0.00</td>
             </tr>
             <tr>
                 <th>Saldo</th>
-                <td th:text="${'#{' + 'R$ ' + monthlyReport.saldo + '}'}">R$ 0.00</td>
+                <td th:text="${'#{' + 'R$ ' + (monthlyReport?.saldo ?: 0.0) + '}'}">R$ 0.00</td>
             </tr>
         </table>
-        <p><a th:href="@{/relatorio(mesAno=${#temporals.format(#dates.createNow(), 'yyyy-MM')})}">Atualizar para o Mês Atual</a></p>
+        <p><a th:href="@{/relatorio(mesAno=${#dates.format(#dates.createNow(), 'yyyy-MM')})}">Atualizar para o Mês Atual</a></p>
     </div>
 
-    <div th:replace="~{base_template :: footer}"></div>
+    <div th:replace="~{base_template :: baseFooter}"></div>
 </body>
 </html>

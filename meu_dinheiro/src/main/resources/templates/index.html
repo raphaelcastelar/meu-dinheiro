@@ -19,9 +19,9 @@
 
     <h3>Navegação</h3>
     <ul>
-        <li><a th:href="@{/user/dashboard}">Dashboard do Usuário</a></li>
-        <li><a th:href="@{/user/receita}">Minhas Receitas</a></li>
-        <li><a th:href="@{/despesa}">Minhas Despesas</a></li>
+        <li><a th:href="@{/user/relatorio}">Relatório do Usuário</a></li>
+        <li><a th:href="@{/user/receita(nome=${userName})}">Minhas Receitas</a></li>
+        <li><a th:href="@{/despesa(nome=${userName})}">Minhas Despesas</a></li>
         <li><a th:href="@{/categoria(nome=${userName})}">Minhas Categorias</a></li>
 
         <li><a th:href="@{/admin/dashboard}">Dashboard do Administrador</a></li>
