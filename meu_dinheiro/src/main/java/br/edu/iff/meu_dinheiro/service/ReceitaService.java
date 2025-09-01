@@ -25,4 +25,8 @@ public class ReceitaService {
             receitas.add(receita);
         }
     }
+
+    public void deleteById(Long id) {
+        receitas.removeIf(d -> d.getId().equals(id));
+    }
 }
