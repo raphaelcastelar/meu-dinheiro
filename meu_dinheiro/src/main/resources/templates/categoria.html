@@ -11,8 +11,9 @@
     </div>
 
     <div class="form-section">
-        <div th:with="formTitle='Nova Categoria', routePrefix='categoria'"
-             th:replace="~{base_template :: form-section(formTitle=${formTitle}, routePrefix=${routePrefix}, item=${item})}"></div>
+        <div th:with="formTitle='Nova Categoria', routePrefix='categoria/save', item=${item != null ? item : #objects.instantiate('br.edu.iff.meu_dinheiro.entities.Categoria')}, 
+                      fieldNames=${T(java.util.Arrays).asList('nome')}"
+             th:replace="~{base_template :: form-section(formTitle=${formTitle}, routePrefix=${routePrefix}, item=${item}, fieldNames=${fieldNames})}"></div>
     </div>
 
     <div class="table-section">

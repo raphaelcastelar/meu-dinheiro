@@ -40,12 +40,14 @@ public class CategoriaController {
     }
 
     @PostMapping("/save")
-    public String saveCategory(@Validated @ModelAttribute("item") Categoria categoria, BindingResult result, Model model) {
+    public String saveCategory(@Validated @ModelAttribute("item") Categoria categoria, BindingResult result, 
+                              @RequestParam(required = false) String nome, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("categorias", categoriaService.findAll() != null ? categoriaService.findAll() : java.util.Collections.emptyList());
-            return "categoria";
+            model.addAttribute("userName", nome != null ? nome : "Usuário");
+            return "categoria"; // Retorna para a mesma página com erros
         }
         categoriaService.save(categoria);
-        return "redirect:/categoria";
+        return "redirect:/categoria?nome=" + (nome != null ? nome : "Usuário");
     }
 }

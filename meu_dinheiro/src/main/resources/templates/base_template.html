@@ -47,17 +47,20 @@
         </div>
     </div>
 
-    <!-- Fragmento de Seção de Formulário -->
-    <div th:fragment="form-section (formTitle, routePrefix, item)">
+    <div th:fragment="form-section (formTitle, routePrefix, item, fieldNames)">
         <div class="form-container">
-            <h2 th:text="${formTitle} ?: 'Formulário'">Título do Formulário</h2>
+            <h2 th:text="${formTitle}">Título do Formulário</h2>
             <form th:action="@{'/' + ${routePrefix}}" th:object="${item}" method="post">
                 <input type="hidden" th:field="*{id}" />
-                <label>Nome:</label>
-                <input type="text" th:field="*{nome}" th:value="${item.nome} ?: ''" />
-                <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="error"></span><br/>
+                <div th:each="field : ${fieldNames}">
+                    <div>
+                        <label th:for="${'field_' + field}" th:text="${#strings.capitalize(field)} + ':'"></label>
+                        <input th:id="'field_' + field" th:field="*{__${field}__}" />
+                        <span th:if="${#fields.hasErrors(field)}" th:errors="*{__${field}__}" class="error"></span>
+                    </div>
+                </div>
                 <button type="submit">Salvar</button>
-                <a th:href="@{'/' + ${routePrefix}}">Cancelar</a>
+                <a th:href="@{'/' + ${routePrefix}}" th:unless="${#strings.isEmpty(routePrefix)}">Cancelar</a>
             </form>
         </div>
     </div>

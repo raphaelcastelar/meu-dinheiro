@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/expenses")
+@RequestMapping("/despesa")
 public class DespesaController {
     private final DespesaService despesaService;
 
@@ -25,31 +25,34 @@ public class DespesaController {
     @GetMapping
     public String listExpenses(@RequestParam(required = false) String nome, Model model) {
         model.addAttribute("pageTitle", "Despesas");
-        model.addAttribute("expenses", despesaService.findAll());
-        model.addAttribute("userName", nome != null ? nome : "Usuário");
+        model.addAttribute("userName", nome != null ? nome : "João");
+        model.addAttribute("item", new Despesa()); // Usando "item" como nome do atributo
+        model.addAttribute("despesa", despesaService.findAll());
         return "despesa";
     }
 
     @GetMapping("/new")
     public String showNewExpenseForm(@RequestParam(required = false) String nome, Model model) {
         model.addAttribute("pageTitle", "Nova Despesa");
-        model.addAttribute("expense", new Despesa());
-        model.addAttribute("userName", nome != null ? nome : "Usuário");
+        model.addAttribute("userName", nome != null ? nome : "João");
+        model.addAttribute("item", new Despesa()); // Usando "item" como nome do atributo
         return "despesa";
     }
 
     @PostMapping
-    public String saveExpense(@Validated @ModelAttribute("expense") Despesa expense, BindingResult result, Model model) {
+    public String saveExpense(@Validated @ModelAttribute("item") Despesa item, BindingResult result, @RequestParam(required = false) String nome, Model model) {
         if (result.hasErrors()) {
-            return "despesa";
+            model.addAttribute("userName", nome != null ? nome : "João");
+            model.addAttribute("despesa", despesaService.findAll());
+            return "despesa"; // Retorna para a mesma página com erros
         }
-        despesaService.save(expense);
-        return "redirect:/expenses";
+        despesaService.save(item);
+        return "redirect:/despesa?nome=" + (nome != null ? nome : "João");
     }
 
     @GetMapping("/delete/{id}")
     public String deleteExpense(@PathVariable Long id, @RequestParam(required = false) String nome) {
         despesaService.deleteById(id);
-        return "redirect:/expenses?nome=" + (nome != null ? nome : "Usuário");
+        return "redirect:/despesa?nome=" + (nome != null ? nome : "João");
     }
 }
