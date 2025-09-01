@@ -35,42 +35,6 @@
     </div>
 
     <footer th:replace="~{base_template :: baseFooter}"></footer>
-
-    <!-- Script para simulação temporária -->
-    <script th:inline="javascript">
-    // Inicializa variáveis a partir do Thymeleaf
-    const tableRoutePrefix = /*[[${tableRoutePrefix}]]*/ 'receitas';
-    let tableItems = /*[[${receitas}]]*/ [] || [];
-    if (!Array.isArray(tableItems)) tableItems = [];
-
-    document.querySelector('form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        const descricao = document.getElementById('descricao').value;
-        const valor = parseFloat(document.getElementById('valor').value) || 0.0;
-        if (descricao && valor > 0) {
-            const tempItem = { descricao: descricao, valor: valor };
-            tableItems.unshift(tempItem); // Adiciona o novo item no início
-            const tableSection = document.getElementById('tableSection');
-
-            // Chama o servidor para re-renderizar a tabela
-            fetch('/user/receita/update-table', { // Confirme que esta rota está correta
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tableItems: tableItems })
-            })
-            .then(response => {
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                return response.text();
-            })
-            .then(html => {
-                tableSection.innerHTML = html;
-            })
-            .catch(error => console.error('Erro ao atualizar tabela:', error));
-
-            document.getElementById('descricao').value = '';
-            document.getElementById('valor').value = '';
-        }
-    });
 </script>
 </body>
 </html>
