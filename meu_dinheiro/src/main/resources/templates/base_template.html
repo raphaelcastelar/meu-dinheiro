@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:fragment="baseHead">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${pageTitle} + ' - Meu Dinheiro'">Meu Dinheiro</title>
@@ -12,6 +12,7 @@
         nav ul li a { color: white; text-decoration: none; }
         nav ul li a:hover { text-decoration: underline; }
         .content { padding: 20px; }
+        .main-content, .form-section, .table-section { padding: 20px; }
         table { border-collapse: collapse; width: 100%; margin-top: 20px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
@@ -25,54 +26,41 @@
 </head>
 <body>
     <!-- Fragmento de Cabeçalho -->
-    <div th:fragment="header">
-        <header>
-            <h1 th:text="#{app.title}">Meu Dinheiro</h1>
-            <nav>
-                <ul>
-                    <li><a th:href="@{/principal/{id}(id=${userId}, nome=${userName})}" th:text="#{app.welcome(${userName})}">Bem-vindo(a)</a></li>
-                    <li><a th:href="@{/expenses}">Despesas</a></li>
-                    <li><a th:href="@{/receipts}">Receitas</a></li>
-                    <li><a th:href="@{/user/dashboard}">Dashboard</a></li>
-                    <li><a th:href="@{/admin/dashboard}" th:if="${isAdmin}">Admin</a></li>
-                    <li><a th:href="@{/principal/logout}" th:text="#{app.logout}">Sair</a></li>
-                </ul>
-            </nav>
-        </header>
-    </div>
+    <header th:fragment="baseHeaderPage">
+        <nav>
+            <ul>
+                <li><a th:href="@{/principal/{id}(id=${userId}, nome=${userName} ?: 'Usuário')}" th:text="#{app.welcome(${userName} ?: 'Usuário')}">Bem-vindo</a></li>
+                <li><a th:href="@{/despesa}">Despesas</a></li>
+                <li><a th:href="@{/receita}">Receitas</a></li>
+                <li><a th:href="@{/user/dashboard}">Dashboard</a></li>
+                <li><a th:href="@{/admin/dashboard}" th:if="${isAdmin}">Admin</a></li>
+                <li><a th:href="@{/principal/logout}" th:text="#{app.logout} ?: 'Sair'">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
 
     <!-- Fragmento de Container Principal -->
     <div th:fragment="content (mainTitle, subTitle)">
         <div class="content">
-            <h1 th:text="${mainTitle}">Título Principal</h1>
-            <p th:text="${subTitle}">Subtítulo ou Instruções</p>
+            <h1 th:text="${mainTitle} ?: 'Título Padrão'">Título Principal</h1>
+            <p th:text="${subTitle} ?: 'Subtítulo Padrão'">Subtítulo ou Instruções</p>
         </div>
     </div>
 
-    <!-- Fragmento de Seção de Formulário -->
-    <div th:fragment="form-section (formTitle, routePrefix, item)">
+    <div th:fragment="form-section (formTitle, routePrefix, item, fieldNames)">
         <div class="form-container">
             <h2 th:text="${formTitle}">Título do Formulário</h2>
             <form th:action="@{'/' + ${routePrefix}}" th:object="${item}" method="post">
                 <input type="hidden" th:field="*{id}" />
-                <label>Descrição:</label>
-                <input type="text" th:field="*{description}" />
-                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></span><br/>
-                
-                <label>Valor:</label>
-                <input type="number" step="0.01" th:field="*{value}" />
-                <span th:if="${#fields.hasErrors('value')}" th:errors="*{value}" class="error"></span><br/>
-                
-                <label>Data:</label>
-                <input type="date" th:field="*{date}" />
-                <span th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class="error"></span><br/>
-                
-                <label>Categoria:</label>
-                <input type="text" th:field="*{category}" />
-                <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="error"></span><br/>
-                
+                <div th:each="field : ${fieldNames}">
+                    <div>
+                        <label th:for="${'field_' + field}" th:text="${#strings.capitalize(field.replace('.', ' '))} + ':'"></label>
+                        <input th:id="'field_' + field" th:field="*{__${field}__}" />
+                        <span th:if="${#fields.hasErrors(field)}" th:errors="*{__${field}__}" class="error"></span>
+                    </div>
+                </div>
                 <button type="submit">Salvar</button>
-                <a th:href="@{'/' + ${routePrefix}}">Cancelar</a>
+                <a th:href="@{'/' + ${routePrefix}}" th:unless="${#strings.isEmpty(routePrefix)}">Cancelar</a>
             </form>
         </div>
     </div>
@@ -85,37 +73,30 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Descrição</th>
-                        <th>Valor</th>
-                        <th>Data</th>
-                        <th>Categoria</th>
+                        <th>Nome</th>
                         <th>Ações</th>
+                        <th>Valor</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr th:each="item : ${items}">
-                        <td th:text="${item.id}">ID</td>
-                        <td th:text="${item.description}">Descrição</td>
-                        <td th:text="${'#{' + 'R$ ' + item.value + '}'}">Valor</td>
-                        <td th:text="${#temporals.format(item.date, 'dd/MM/yyyy')}">Data</td>
-                        <td th:text="${item.category}">Categoria</td>
+                        <td th:text="${item.id} ?: 'N/A'">ID</td>
+                        <td th:text="${item.nome} ?: 'Sem Nome'">Nome</td>
                         <td>
-                            <a th:href="@{'/' + ${routePrefix} + '/edit/{id}'(id=${item.id})}">Editar</a>
-                            <a th:href="@{'/' + ${routePrefix} + '/delete/{id}'(id=${item.id})}" 
+                            <a th:href="@{'/' + ${routePrefix} + '/editar/{id}'(id=${item.id})}">Editar</a>
+                            <a th:href="@{'/' + ${routePrefix} + '/excluir/{id}'(id=${item.id})}" 
                                onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</a>
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <p><a th:href="@{'/' + ${routePrefix} + '/new'}">Adicionar Novo Item</a></p>
+            <p><a th:href="@{'/' + ${routePrefix} + '/nova'}">Adicionar Novo Item</a></p>
         </div>
     </div>
 
     <!-- Fragmento de Rodapé -->
-    <div th:fragment="footer">
-        <footer>
-            <p>&copy; 2025 Meu Dinheiro - Raphael e João Pedro</p>
-        </footer>
-    </div>
+    <footer th:fragment="baseFooter">
+        <p>&copy; 2025 Meu Dinheiro - Raphael e João Pedro</p>
+    </footer>
 </body>
 </html>

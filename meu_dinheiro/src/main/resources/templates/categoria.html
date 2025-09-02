@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base_template :: baseHead}"></head>
+
+<body>
+    <header th:replace="~{base_template :: baseHeaderPage}"></header>
+
+    <div class="main-content max-w-5xl mx-auto p-6" style="background-color: #f3f4f6; font-family: 'Arial', sans-serif;">
+        <div th:replace="~{base_template :: content(mainTitle='Categorias', subTitle='Visualize as categorias existentes ou adicione uma.')}"></div>
+
+        <!-- Formulário para adicionar categoria -->
+        <div class="card mt-6" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem;">
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">Adicionar Nova Categoria</h3>
+            <form id="formCategoria" class="space-y-6">
+                <div>
+                    <label for="nome" class="block text-sm font-medium text-gray-600">Nome da Categoria</label>
+                    <input type="text" id="nome" name="nome" class="mt-2 p-3 w-full border rounded-md" placeholder="Ex.: Alimentação" required>
+                </div>
+                <button type="submit" class="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
+                    Adicionar Categoria
+                </button>
+            </form>
+        </div>
+
+        <!-- Tabela de Categorias -->
+        <div class="table-section mt-6">
+            <table id="tabelaCategorias" class="w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr style="background-color: #d1fae5;">
+                        <th class="border border-gray-300 px-4 py-2">Categoria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- As categorias adicionadas vão aparecer aqui -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <footer th:replace="~{base_template :: baseFooter}"></footer>
+
+    <script>
+        document.getElementById("formCategoria").addEventListener("submit", function(event) {
+            event.preventDefault(); // evita reload da página
+
+            const nome = document.getElementById("nome").value;
+
+            if (nome) {
+                const tabela = document.getElementById("tabelaCategorias").querySelector("tbody");
+
+                // cria nova linha
+                const novaLinha = document.createElement("tr");
+
+                // cria célula
+                const tdNome = document.createElement("td");
+                tdNome.textContent = nome;
+                tdNome.className = "border border-gray-300 px-4 py-2";
+
+                // adiciona célula à linha
+                novaLinha.appendChild(tdNome);
+
+                // insere a linha na tabela
+                tabela.appendChild(novaLinha);
+
+                // limpa o formulário
+                document.getElementById("formCategoria").reset();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -7,25 +7,25 @@ import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping(path = "/user")
-public class UserController {
+public class UsuarioController {
     
-    @GetMapping("/dashboard")
+    @GetMapping("/relatorio")
     public String showDashboard(Model model) {
-        return "dashboard.html";
+        return "relatorio.html";
     }
     
-    @GetMapping("/receipts")
+    @GetMapping("/receita")
     public String showReceipts(Model model) {
-        return "receipts.html";
+        return "receita.html";
     }
     
-    @GetMapping("/expenses")
+    @GetMapping("/despesa")
     public String showExpenses(Model model) {
-        return "expenses.html";
+        return "despesa.html";
     }
     
-    @GetMapping("/categories")
+    @GetMapping("/categoria")
     public String showCategories(Model model) {
-        return "categories.html";
+        return "categoria.html";
     }
 }
