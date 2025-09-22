@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import br.edu.iff.meu_dinheiro.entities.Relatorio;
 
 @Repository
-public interface relatorioRepository extends JpaRepository<Relatorio, Long> {
+public interface RelatorioRepository extends JpaRepository<Relatorio, Long> {
     // Método personalizaro para buscar relatório por período (mesAno)
     Relatorio findByMesAno(String mesAno);
 }

@@ -13,16 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.iff.meu_dinheiro.entities.Relatorio;
-import br.edu.iff.meu_dinheiro.repository.relatorioRepository;
+import br.edu.iff.meu_dinheiro.repository.RelatorioRepository;
 
 @RestController
 @RequestMapping("/api/v1/relatorio")
 public class RestApiRelatorioController {
 
-    private final relatorioRepository relatorioRepository;
+    private final RelatorioRepository relatorioRepository;
 
     @Autowired
-    public RestApiRelatorioController(relatorioRepository relatorioRepository) {
+    public RestApiRelatorioController(RelatorioRepository relatorioRepository) {
         this.relatorioRepository = relatorioRepository;
     }
 

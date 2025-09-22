@@ -4,15 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.edu.iff.meu_dinheiro.entities.Relatorio;
 import br.edu.iff.meu_dinheiro.exception.*;
-import br.edu.iff.meu_dinheiro.repository.relatorioRepository;
+import br.edu.iff.meu_dinheiro.repository.RelatorioRepository;
 
 @Service
 public class RelatorioService {
 
-    private final relatorioRepository relatorioRepository;
+    private final RelatorioRepository relatorioRepository;
 
     @Autowired
-    public RelatorioService(relatorioRepository relatorioRepository) {
+    public RelatorioService(RelatorioRepository relatorioRepository) {
         this.relatorioRepository = relatorioRepository;
     }
 
