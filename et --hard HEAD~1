@@ -1,0 +1,258 @@
+[33mcommit a0ef2708f0915fb5b26a105d6925d8c7f3ddba32[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mTR06-RepositoryAndExceptions[m[33m, [m[1;31morigin/TR06-RepositoryAndExceptions[m[33m)[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 22 10:00:11 2025 -0300
+
+    att error entityrepository
+
+[33mcommit 3c0af52dbba5193bc5ee41f16b8ef3c1e17b6b3c[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 22 08:48:38 2025 -0300
+
+    att intellij
+
+[33mcommit 6a57d3de8b27487a2a0705cf984caf1947313084[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 22 08:37:57 2025 -0300
+
+    att restapirelatoriocontroller
+
+[33mcommit c8ec1fb423b4e5d544cf0aa4a378b022bab092eb[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 8 22:55:00 2025 -0300
+
+    RepositoryAndExceptions
+
+[33mcommit c7c8cfd5b2351db453a030fae1acdd0e5ca9168a[m[33m ([m[1;31morigin/entrega-p1[m[33m, [m[1;32mentrega-p1[m[33m)[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Tue Sep 2 12:48:12 2025 -0300
+
+     att categoria
+
+[33mcommit bb122819dedd48d8e97564499f6d47eceb3edf0b[m[33m ([m[1;33mtag: [m[1;33mv1.0-P1[m[33m)[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 18:38:40 2025 -0300
+
+    att categoria, despesa e receita
+
+[33mcommit da67736af31294adc86b91ae21de576f84f84e63[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 15:34:12 2025 -0300
+
+    att htmls
+
+[33mcommit 0a76a62fe73fb1781aedae947eb0cb9277829545[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 15:07:22 2025 -0300
+
+    delete do script em receita
+
+[33mcommit 97e67a4e9ed49cc8d3c51be2b8736f751375800e[m
+Merge: eb34edb 39731cc
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 15:04:14 2025 -0300
+
+    Merge branch 'entrega-p1' of https://github.com/raphaelcastelar/meu-dinheiro into entrega-p1
+
+[33mcommit eb34edb4922499b0baaa17781211e4b8b8309d17[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 15:04:01 2025 -0300
+
+    att relatorio e receita
+
+[33mcommit 39731cc7c2e617a29df31125b13e314fc53b5dba[m
+Author: Raphael Castelar <130313902+raphaelcastelar@users.noreply.github.com>
+Date:   Mon Sep 1 15:00:45 2025 -0300
+
+    Update README.md
+
+[33mcommit 1fbe4b6184d20bd2c3b94526ca295f005a599ffc[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 13:12:22 2025 -0300
+
+    att index
+
+[33mcommit 609ab5f7cda24fec2016d39821f1bc91c43069d0[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 12:18:02 2025 -0300
+
+    att relatorio
+
+[33mcommit e5b99eec1d13dc160aa2ed1c4bc6bac62d32a4ee[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 09:49:13 2025 -0300
+
+    att receita
+
+[33mcommit dba2906c2efdf0cb01a9fe474f7d8924b9aab4a2[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 08:55:41 2025 -0300
+
+    att receita service
+
+[33mcommit 6903b4c273450fadf0619a1ae8f86b56b3b87393[m
+Author: JoaoSuprani <suprani.j@gsuite.iff.edu.br>
+Date:   Mon Sep 1 08:53:23 2025 -0300
+
+    Update ReceitaController.java
+    
+    Classe controller da entidade Receita
+
+[33mcommit db642f8e809bdbd5f3ef121125d3c95986f114e3[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Sep 1 00:12:18 2025 -0300
+
+    att categoria e despesa
+
+[33mcommit d060a5338bceb18c24c7daf8f1e0803f0bf8925b[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Sun Aug 31 18:27:18 2025 -0300
+
+    att entrega p1
+
+[33mcommit 426ef220c373816c86814cc49d8ba54189eedad2[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Sun Aug 31 10:56:54 2025 -0300
+
+    att htmls
+
+[33mcommit a05a403f47d6ad84e9a3753f4c9cf3154b6829dc[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Sat Aug 30 11:01:29 2025 -0300
+
+    att entidades
+
+[33mcommit d52763cc336b402b03a4be3da7f309f0054bb858[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Fri Aug 29 22:51:12 2025 -0300
+
+    att entrega p1 - htmls, pom, properties
+
+[33mcommit 4ed766ca2e53f4817628d8fc0869cb1dace3c970[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Fri Aug 29 14:54:37 2025 -0300
+
+    att entrega p1
+
+[33mcommit 07ada7584320e81507626e695be3506f3661d112[m
+Merge: b9a705c ed885a0
+Author: RonaldoAmaralIFF <112212879+RonaldoAmaralIFF@users.noreply.github.com>
+Date:   Tue Aug 19 15:42:00 2025 -0300
+
+    Merge pull request #12 from raphaelcastelar/TR05-BaseLayout
+    
+    TR05-BaseLayout
+
+[33mcommit ed885a01c8dae06724a90b5afd4d9dd9e5e26bd2[m[33m ([m[1;31morigin/TR05-BaseLayout[m[33m)[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Aug 18 23:00:56 2025 -0300
+
+    add base_template.html
+
+[33mcommit 500b15e837369cd6e667729322ac60db07ce683d[m[33m ([m[1;31morigin/TR04-ServiceAndEntity[m[33m, [m[1;32mTR04-ServiceAndEntity[m[33m)[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Aug 11 22:54:37 2025 -0300
+
+    att controllers
+
+[33mcommit d1fae5dc85699cd5d3ae248c22d48f9ac6eb49df[m[33m ([m[1;31morigin/TR03-ViewController[m[33m, [m[1;31morigin/TR02-PreparacaoAmbiente(28-07-25)[m[33m, [m[1;32mTR02-PreparacaoAmbiente(28-07-25)[m[33m)[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Aug 11 13:47:47 2025 -0300
+
+    att admin, user controller and message.properties and index
+
+[33mcommit 69b54802d98a970009f75afc4fa652e73c500b52[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Aug 11 10:05:36 2025 -0300
+
+    add controllers admin and user
+
+[33mcommit 9dd20f39b4f86a79425aacd5189008efbdab5eb6[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Sat Aug 9 21:32:15 2025 -0300
+
+    aula 04/08
+
+[33mcommit b9a705c7bd89e7f2dc69da837905538a54f9919f[m
+Merge: 5a7954a 9199a58
+Author: RonaldoAmaralIFF <112212879+RonaldoAmaralIFF@users.noreply.github.com>
+Date:   Tue Jul 29 16:24:22 2025 -0300
+
+    Merge pull request #9 from raphaelcastelar/TR02-PreparacaoAmbiente(28-07-25)
+    
+    TR02-Preparacao Ambiente
+
+[33mcommit 9199a58ce998bf44eeb11ece7be3dbee78dad1e9[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Tue Jul 29 13:15:43 2025 -0300
+
+    TR02-Preparacao Ambiente
+
+[33mcommit 5a7954aba4a159fdf436bc301aa0611a4a2f29e3[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 28 21:16:11 2025 -0300
+
+    att maven
+
+[33mcommit a6e731edea6a1d832197def11d318095874f4e9f[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 28 11:11:21 2025 -0300
+
+    ex06
+
+[33mcommit 53ad7dae0f7c556de66e9d06b9e5e6a1d3989d46[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 28 09:38:35 2025 -0300
+
+    ex05
+
+[33mcommit e3e22463612e27f655ea6a64be1e78edf1b267cd[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 21 20:32:07 2025 -0300
+
+    rename ex04
+
+[33mcommit e5965bf5ed6ed6821990575e393f90d14ad762df[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 21 20:30:46 2025 -0300
+
+    att pages
+
+[33mcommit 0a714793e8309c2faccfcf3ecd8ca21d22a2f2e7[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 21 20:13:51 2025 -0300
+
+    add readme to gitignore
+
+[33mcommit 0ad2acd02a56134d0e9a3abe93c2637cd55a3fef[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 21 20:10:20 2025 -0300
+
+    att name ex04
+
+[33mcommit 8fa213933fa7d45a9fd0760251a1d1565f273542[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 21 20:06:58 2025 -0300
+
+    ex04
+
+[33mcommit 02e3fa5326d7a90b573f9e3679861f142cdf03fa[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 14 20:56:54 2025 -0300
+
+    add ex02 ex03
+
+[33mcommit 27c28771267a352149c8d110e744bd103decf173[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 14 20:28:08 2025 -0300
+
+    Update .gitignore
+
+[33mcommit 0fb0491d4ad5b227b2d7bca228a8b0c9925254cc[m
+Author: Raphael Castelar <castelaraphael@gmail.com>
+Date:   Mon Jul 7 21:51:17 2025 -0300
+
+    att exercicio
+
+[33mcommit a3d3fb33d9421e810f864464047ff3883cd1c95b[m
+Author: Raphael Castelar <130313902+raphaelcastelar@users.noreply.github.com>
+Date:   Mon J
