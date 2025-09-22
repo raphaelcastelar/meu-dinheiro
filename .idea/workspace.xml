@@ -7,7 +7,6 @@
     <list default="true" id="4cda09f8-b696-48d3-941b-01791a4f17cd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/meu_dinheiro/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,8 +42,8 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
+    "RequestMappingsPanelWidth0": "900",
+    "RequestMappingsPanelWidth1": "899",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -86,7 +85,7 @@
       <updated>1758541631981</updated>
       <workItem from="1758541633049" duration="52000" />
       <workItem from="1758547634130" duration="4651000" />
-      <workItem from="1758559138166" duration="639000" />
+      <workItem from="1758559138166" duration="2213000" />
     </task>
     <servers />
   </component>
