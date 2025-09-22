@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4cda09f8-b696-48d3-941b-01791a4f17cd" name="Changes" comment="" />
+    <list default="true" id="4cda09f8-b696-48d3-941b-01791a4f17cd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -13,6 +17,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;raphaelcastelar&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/raphaelcastelar/meu-dinheiro.git&quot;,
+    &quot;accountId&quot;: &quot;7fa8484d-c21d-4942-b6bb-4290466b6109&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -30,11 +46,16 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.MeuDinheiroApplication.executor": "Run",
     "git-widget-placeholder": "#39 on TR06-RepositoryAndExceptions",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "to.speed.mode.migration.done": "true",
     "vue.rearranger.settings.migration": "true"
   }
@@ -64,6 +85,8 @@
       <option name="presentableId" value="Default" />
       <updated>1758541631981</updated>
       <workItem from="1758541633049" duration="52000" />
+      <workItem from="1758547634130" duration="4651000" />
+      <workItem from="1758559138166" duration="639000" />
     </task>
     <servers />
   </component>
