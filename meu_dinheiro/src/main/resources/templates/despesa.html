@@ -1,104 +1,172 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{base_template :: baseHead}"></head>
-
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base_template :: baseHead (pageTitle='Despesas Mensais')}"></head>
 <body>
-    <header th:replace="~{base_template :: baseHeaderPage}"></header>
+<!-- Cabeçalho -->
+<header th:replace="~{base_template :: baseHeaderPage}"></header>
 
-    <div class="main-content max-w-5xl mx-auto p-6" style="background-color: #f3f4f6; font-family: 'Arial', sans-serif;">
-        <div th:replace="~{base_template :: content(mainTitle='Despesa Mensal', subTitle='Visualize o resumo financeiro.')}"></div>
+<!-- Conteúdo Principal -->
+<div th:replace="~{base_template :: content(mainTitle='Despesas Mensais', subTitle='Gerencie suas despesas financeiras por período.')}">
+    <!-- Inserir conteúdo personalizado dentro do div.content -->
+    <div th:insert="~{this :: #contentFragment}"></div>
+</div>
 
-        <!-- Formulário para adicionar despesa -->
-        <div class="card mt-6" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem;">
-            <h3 class="text-xl font-semibold text-gray-700 mb-4" style="color: #374151;">Adicionar Nova Despesa</h3>
-            <form id="formDespesa" class="space-y-6">
-                <div>
-                    <label for="descricao" class="block text-sm font-medium text-gray-600">Descrição</label>
-                    <input type="text" id="descricao" name="descricao" class="mt-2 p-3 w-full border rounded-md" placeholder="Ex.: Aluguel" required>
-                </div>
-                <div>
-                    <label for="valor" class="block text-sm font-medium text-gray-600">Valor (R$)</label>
-                    <input type="number" id="valor" name="valor" step="0.01" class="mt-2 p-3 w-full border rounded-md" placeholder="0.00" required>
-                </div>
-                <div>
-                    <label for="data" class="block text-sm font-medium text-gray-600">Data</label>
-                    <input type="date" id="data" name="data" class="mt-2 p-3 w-full border rounded-md" required>
-                </div>
-                <div>
-                    <label for="categoria" class="block text-sm font-medium text-gray-600">Categoria</label>
-                    <input type="text" id="categoria" name="categoria" class="mt-2 p-3 w-full border rounded-md" placeholder="Ex.: Moradia" required>
-                </div>
-                <button type="submit" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">
-                    Adicionar Despesa
-                </button>
-            </form>
-        </div>
+<!-- Rodapé -->
+<footer th:replace="~{base_template :: baseFooter}"></footer>
 
-        <!-- Tabela de Despesas -->
-        <div class="table-section mt-6">
-            <table id="tabelaDespesas" class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr style="background-color: #fee2e2;">
-                        <th class="border border-gray-300 px-4 py-2">Descrição</th>
-                        <th class="border border-gray-300 px-4 py-2">Valor (R$)</th>
-                        <th class="border border-gray-300 px-4 py-2">Data</th>
-                        <th class="border border-gray-300 px-4 py-2">Categoria</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As despesas adicionadas vão aparecer aqui -->
-                </tbody>
-            </table>
-        </div>
+<!-- Fragmento de Conteúdo Personalizado -->
+<div th:fragment="contentFragment" class="content">
+    <!-- Formulário para Criar Nova Despesa -->
+    <div class="form-section">
+        <h3>Adicionar Nova Despesa</h3>
+        <form id="createDespesaForm" onsubmit="submitForm(event)" class="form-container">
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <input type="text" name="descricao" id="descricao" required class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="valor">Valor:</label>
+                <input type="number" name="valor" id="valor" step="0.01" required class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="data">Data (yyyy-MM):</label>
+                <input type="text" name="data" id="data" required pattern="\d{4}-\d{2}" class="form-input" />
+            </div>
+            <button type="submit" class="btn-submit">Salvar Nova Despesa</button>
+        </form>
     </div>
 
-    <footer th:replace="~{base_template :: baseFooter}"></footer>
+    <!-- Lista de Despesas -->
+    <div class="table-section">
+        <h3>Lista de Despesas</h3>
+        <table class="report-table">
+            <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Data</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="despesa : ${despesas}">
+                <td th:text="${despesa.descricao}">N/A</td>
+                <td><input type="number" name="valor" th:value="${despesa.valor}" step="0.01" class="table-input" /></td>
+                <td><input type="text" name="data" th:value="${despesa.data}" pattern="\d{4}-\d{2}" class="table-input" /></td>
+                <td>
+                    <button th:onclick="'updateDespesa(' + ${despesa.id} + ', event)'" class="btn-action">Atualizar</button>
+                    <button th:onclick="'deleteDespesa(' + ${despesa.id} + ', event)'" class="btn-delete">Deletar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <script>
-        document.getElementById("formDespesa").addEventListener("submit", function(event) {
-            event.preventDefault(); // evita reload da página
+    <!-- Botão para Atualizar para o Mês Atual -->
+    <p><a th:href="@{/despesa(data=${#dates.format(#dates.createNow(), 'yyyy-MM')})}" class="btn-link">Atualizar para o Mês Atual</a></p>
+</div>
 
-            const descricao = document.getElementById("descricao").value;
-            const valor = document.getElementById("valor").value;
-            const data = document.getElementById("data").value;
-            const categoria = document.getElementById("categoria").value;
+<!-- JavaScript -->
+<script th:inline="javascript">
+    // Função para criar uma nova despesa
+    function submitForm(event) {
+        event.preventDefault();
+        console.log('Formulário submetido');
 
-            if (descricao && valor && data && categoria) {
-                const tabela = document.getElementById("tabelaDespesas").querySelector("tbody");
+        const form = event.target;
+        const formData = {
+            descricao: form.descricao.value,
+            valor: parseFloat(form.valor.value) || 0,
+            data: form.data.value
+        };
 
-                // cria nova linha
-                const novaLinha = document.createElement("tr");
+        fetch('/api/v1/despesa', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao salvar: ' + response.statusText);
+                console.log('Resposta:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Sucesso:', data);
+                alert('Despesa salva com sucesso!');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao salvar a despesa: ' + error.message);
+            });
+    }
 
-                // cria células
-                const tdDescricao = document.createElement("td");
-                tdDescricao.textContent = descricao;
-                tdDescricao.className = "border border-gray-300 px-4 py-2";
+    // Função para atualizar uma despesa
+    function updateDespesa(id, event) {
+        event.preventDefault();
+        const row = event.target.closest('tr');
+        const descricao = row.querySelector('td:first-child').textContent;
+        const formData = {
+            descricao: descricao,
+            valor: parseFloat(row.querySelector('input[name="valor"]').value) || 0,
+            data: row.querySelector('input[name="data"]').value
+        };
 
-                const tdValor = document.createElement("td");
-                tdValor.textContent = "R$ " + parseFloat(valor).toFixed(2);
-                tdValor.className = "border border-gray-300 px-4 py-2";
+        fetch(`/api/v1/despesa/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao atualizar: ' + response.statusText);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Atualizado:', data);
+                alert('Despesa atualizada com sucesso!');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar a despesa: ' + error.message);
+            });
+    }
 
-                const tdData = document.createElement("td");
-                tdData.textContent = data.split("-").reverse().join("/"); // formata data para dd/mm/yyyy
-                tdData.className = "border border-gray-300 px-4 py-2";
+    // Função para deletar uma despesa
+    function deleteDespesa(id, event) {
+        event.preventDefault();
+        if (confirm('Tem certeza que deseja deletar esta despesa?')) {
+            fetch(`/api/v1/despesa/${id}`, { method: 'DELETE' })
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
+                    alert('Despesa deletada com sucesso!');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao deletar a despesa: ' + error.message);
+                });
+        }
+    }
 
-                const tdCategoria = document.createElement("td");
-                tdCategoria.textContent = categoria;
-                tdCategoria.className = "border border-gray-300 px-4 py-2";
+    console.log('Script carregado');
+</script>
 
-                // adiciona células à linha
-                novaLinha.appendChild(tdDescricao);
-                novaLinha.appendChild(tdValor);
-                novaLinha.appendChild(tdData);
-                novaLinha.appendChild(tdCategoria);
-
-                // insere a linha na tabela
-                tabela.appendChild(novaLinha);
-
-                // limpa o formulário
-                document.getElementById("formDespesa").reset();
-            }
-        });
-    </script>
+<!-- Estilos Adicionais -->
+<style>
+    .form-section, .table-section { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px; padding: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    .btn-submit { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-submit:hover { background-color: #45a049; }
+    .report-table { border-radius: 8px; overflow: hidden; width: 100%; }
+    .table-input { width: 100px; padding: 4px; border: 1px solid #ddd; border-radius: 4px; }
+    .btn-action { background-color: #2196F3; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+    .btn-action:hover { background-color: #1976D2; }
+    .btn-delete { background-color: #f44336; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-delete:hover { background-color: #d32f2f; }
+    .btn-link { background-color: #9C27B0; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
+    .btn-link:hover { background-color: #7B1FA2; }
+</style>
 </body>
 </html>

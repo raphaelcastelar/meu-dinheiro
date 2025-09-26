@@ -14,10 +14,10 @@ public class UsuarioController {
         return "receita"; // Retorna receita.html
     }
 
-    @GetMapping("/despesa")
-    public String showExpenses(Model model) {
-        return "despesa"; // Retorna despesa.html
-    }
+    //@GetMapping("/despesa")
+    //public String showExpenses(Model model) {
+        //return "despesa"; // Retorna despesa.html
+    //}
 
     @GetMapping("/categoria")
     public String showCategories(Model model) {

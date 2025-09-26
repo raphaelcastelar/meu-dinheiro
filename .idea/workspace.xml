@@ -5,17 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4cda09f8-b696-48d3-941b-01791a4f17cd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiDespesaController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/repository/DespesaRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/RelatorioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/RelatorioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/DespesaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/DespesaController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/UsuarioController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/relatorio.html" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/relatorio.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/entities/Despesa.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/entities/Despesa.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/service/DespesaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/service/DespesaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/despesa.html" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/despesa.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
