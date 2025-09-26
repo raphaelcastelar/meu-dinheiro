@@ -5,7 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4cda09f8-b696-48d3-941b-01791a4f17cd" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/RelatorioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/RelatorioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/UsuarioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/view/UsuarioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/relatorio.html" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/relatorio.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +32,9 @@
     &quot;accountId&quot;: &quot;7fa8484d-c21d-4942-b6bb-4290466b6109&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 7
@@ -47,7 +55,7 @@
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.MeuDinheiroApplication.executor": "Run",
-    "git-widget-placeholder": "TR06-RepositoryAndExceptions",
+    "git-widget-placeholder": "entrega-p2",
     "junie.onboarding.icon.badge.shown": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -94,5 +102,16 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

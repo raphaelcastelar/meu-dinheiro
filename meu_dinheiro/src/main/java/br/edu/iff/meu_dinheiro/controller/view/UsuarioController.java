@@ -1,31 +1,32 @@
 package br.edu.iff.meu_dinheiro.controller.view;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping(path = "/user")
+@RequestMapping("/user")
 public class UsuarioController {
-    
-    @GetMapping("/relatorio")
-    public String showDashboard(Model model) {
-        return "relatorio.html";
-    }
-    
+
     @GetMapping("/receita")
     public String showReceipts(Model model) {
-        return "receita.html";
+        return "receita"; // Retorna receita.html
     }
-    
+
     @GetMapping("/despesa")
     public String showExpenses(Model model) {
-        return "despesa.html";
+        return "despesa"; // Retorna despesa.html
     }
-    
+
     @GetMapping("/categoria")
     public String showCategories(Model model) {
-        return "categoria.html";
+        return "categoria"; // Retorna categoria.html
     }
+
+    // Opcional: Redirecionar /user/relatorio para o RelatorioController
+    //@GetMapping("/relatorio")
+    //public String redirectToRelatorio() {
+        //return "redirect:/user/relatorio"; // Redireciona para o RelatorioController
+    //}
 }
