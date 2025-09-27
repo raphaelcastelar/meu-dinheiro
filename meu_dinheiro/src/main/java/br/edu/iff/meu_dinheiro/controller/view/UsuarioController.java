@@ -9,10 +9,10 @@ import org.springframework.ui.Model;
 @RequestMapping("/user")
 public class UsuarioController {
 
-    @GetMapping("/receita")
-    public String showReceipts(Model model) {
-        return "receita"; // Retorna receita.html
-    }
+    //@GetMapping("/receita")
+    //public String showReceipts(Model model) {
+        //return "receita"; // Retorna receita.html
+    //}
 
     //@GetMapping("/despesa")
     //public String showExpenses(Model model) {

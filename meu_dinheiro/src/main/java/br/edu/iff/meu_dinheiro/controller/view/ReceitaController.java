@@ -1,51 +1,39 @@
 package br.edu.iff.meu_dinheiro.controller.view;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import br.edu.iff.meu_dinheiro.entities.Receita;
-import br.edu.iff.meu_dinheiro.service.ReceitaService;
+import br.edu.iff.meu_dinheiro.repository.ReceitaRepository;
 
 @Controller
-@RequestMapping("/receita")
+@RequestMapping("/user/receita")
 public class ReceitaController {
 
-    private final ReceitaService receitaService;
+    private final ReceitaRepository receitaRepository;
 
-    public ReceitaController(ReceitaService receitaService) {
-        this.receitaService = receitaService;
+    @Autowired
+    public ReceitaController(ReceitaRepository receitasRepository) {
+        this.receitaRepository = receitasRepository;
     }
 
     @GetMapping
-    public String listReceipts(@RequestParam(required = false) String nome, Model model) {
-        List<Receita> receitas = receitaService.findAll();
-        model.addAttribute("pageTitle", "Receitas");
-        model.addAttribute("receitas", receitas);
-        model.addAttribute("userName", nome != null ? nome : "Usuário");
+    public String showReceitasPage(Model model) {
+        model.addAttribute("receitas", receitaRepository.findAll());
+        model.addAttribute("newReceita", new Receita());
         return "receita";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteReceipt(@PathVariable Long id, @RequestParam(required = false) String nome) {
-        receitaService.deleteById(id);
-        return "redirect:/receitas?nome=" + (nome != null ? nome : "Usuário");
-    }
-
-    @PostMapping("/user/receita/update-table")
-    public String updateTable(@RequestBody Map<String, Object> payload, Model model) {
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> items = (List<Map<String, Object>>) payload.get("tableItems");
-        model.addAttribute("tableRoutePrefix", "receitas");
-        model.addAttribute("tableItems", items != null ? items : Collections.emptyList());
-        return "receita :: .table-section";
+    @GetMapping(params = "data")
+    public String updateMonth(@RequestParam String data, Model model) {
+        Receita monthlyReceita = receitaRepository.findByDataAndDescricao(data, null); // Ajuste conforme necessário
+        model.addAttribute("monthlyReceita", monthlyReceita != null ? monthlyReceita : new Receita());
+        model.addAttribute("receitas", receitaRepository.findAll());
+        model.addAttribute("newReceita", new Receita());
+        return "receita";
     }
 }
