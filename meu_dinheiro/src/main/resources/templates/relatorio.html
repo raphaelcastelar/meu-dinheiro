@@ -2,179 +2,53 @@
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{base_template :: baseHead (pageTitle='Relatório Mensal')}"></head>
 <body>
-<!-- Cabeçalho -->
-<header th:replace="~{base_template :: baseHeaderPage}"></header>
+    <!-- Cabeçalho -->
+    <header th:replace="~{base_template :: baseHeaderPage}"></header>
 
-<!-- Conteúdo Principal -->
-<div th:replace="~{base_template :: content(mainTitle='Relatório Mensal', subTitle='Gerencie o resumo financeiro do período selecionado.')}">
-    <!-- Inserir conteúdo personalizado dentro do div.content -->
-    <div th:insert="~{this :: #contentFragment}"></div>
-</div>
-
-<!-- Rodapé -->
-<footer th:replace="~{base_template :: baseFooter}"></footer>
-
-<!-- Fragmento de Conteúdo Personalizado -->
-<div th:fragment="contentFragment" class="content">
-    <!-- Formulário para Criar Novo Relatório -->
-    <div class="form-section">
-        <h3>Criar Novo Relatório</h3>
-        <form id="createRelatorioForm" onsubmit="submitForm(event)" class="form-container">
-            <div class="form-group">
-                <label for="mesAno">Mês/Ano (yyyy-MM):</label>
-                <input type="text" name="mesAno" id="mesAno" required pattern="\d{4}-\d{2}" class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="totalReceitas">Total de Receitas:</label>
-                <input type="number" name="totalReceitas" id="totalReceitas" step="0.01" required class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="totalDespesas">Total de Despesas:</label>
-                <input type="number" name="totalDespesas" id="totalDespesas" step="0.01" required class="form-input" />
-            </div>
-            <div class="form-group">
-                <label for="saldo">Saldo:</label>
-                <input type="number" name="saldo" id="saldo" step="0.01" required class="form-input" />
-            </div>
-            <button type="submit" class="btn-submit">Salvar Novo Relatório</button>
-        </form>
+    <!-- Conteúdo Principal -->
+    <div th:replace="~{base_template :: content(mainTitle='Relatório Mensal', subTitle='Visualize o resumo financeiro do período selecionado.')}">
+        <!-- Inserir conteúdo personalizado dentro do div.content -->
+        <div th:insert="~{this :: #contentFragment}"></div>
     </div>
 
-    <!-- Lista de Relatórios -->
-    <div class="table-section">
-        <h3>Lista de Relatórios</h3>
-        <table class="report-table">
-            <thead>
-            <tr>
-                <th>Mês/Ano</th>
-                <th>Total Receitas</th>
-                <th>Total Despesas</th>
-                <th>Saldo</th>
-                <th>Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="relatorio : ${relatorios}">
-                <td th:text="${relatorio.mesAno}">N/A</td>
-                <td><input type="number" name="totalReceitas" th:value="${relatorio.totalReceitas}" step="0.01" class="table-input" /></td>
-                <td><input type="number" name="totalDespesas" th:value="${relatorio.totalDespesas}" step="0.01" class="table-input" /></td>
-                <td><input type="number" name="saldo" th:value="${relatorio.saldo}" step="0.01" class="table-input" /></td>
-                <td>
-                    <button th:onclick="'updateRelatorio(' + ${relatorio.id} + ', event)'" class="btn-action">Atualizar</button>
-                    <button th:onclick="'deleteRelatorio(' + ${relatorio.id} + ', event)'" class="btn-delete">Deletar</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <!-- Rodapé -->
+    <footer th:replace="~{base_template :: baseFooter}"></footer>
+
+    <!-- Fragmento de Conteúdo Personalizado -->
+    <div th:fragment="contentFragment" class="content">
+        <!-- Lista de Relatórios -->
+        <div class="table-section">
+            <h3>Lista de Relatórios por Mês</h3>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Mês/Ano</th>
+                        <th>Total Receitas</th>
+                        <th>Total Despesas</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="relatorio : ${relatorios}">
+                        <td th:text="${relatorio.mesAno}">N/A</td>
+                        <td th:text="${'#{' + 'R$ ' + relatorio.totalReceitas + '}'}">R$ 0.00</td>
+                        <td th:text="${'#{' + 'R$ ' + relatorio.totalDespesas + '}'}">R$ 0.00</td>
+                        <td th:text="${'#{' + 'R$ ' + relatorio.saldo + '}'}">R$ 0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botão para Atualizar para o Mês Atual -->
+        <p><a th:href="@{/user/relatorio(mesAno=${#dates.format(#dates.createNow(), 'yyyy-MM')})}" class="btn-link">Atualizar para o Mês Atual</a></p>
     </div>
 
-    <!-- Botão para Atualizar para o Mês Atual -->
-    <p><a th:href="@{/user/relatorio(mesAno=${#dates.format(#dates.createNow(), 'yyyy-MM')})}" class="btn-link">Atualizar para o Mês Atual</a></p>
-</div>
-
-<!-- JavaScript -->
-<script th:inline="javascript">
-    // Função para criar um novo relatório
-    function submitForm(event) {
-        event.preventDefault();
-        console.log('Formulário submetido');
-
-        const form = event.target;
-        const formData = {
-            mesAno: form.mesAno.value,
-            totalReceitas: parseFloat(form.totalReceitas.value) || 0,
-            totalDespesas: parseFloat(form.totalDespesas.value) || 0,
-            saldo: parseFloat(form.saldo.value) || 0
-        };
-
-        fetch('/api/v1/relatorio', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error('Erro ao salvar: ' + response.statusText);
-                console.log('Resposta:', response);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Sucesso:', data);
-                alert('Relatório salvo com sucesso!');
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro ao salvar o relatório: ' + error.message);
-            });
-    }
-
-    // Função para atualizar um relatório
-    function updateRelatorio(id, event) {
-        event.preventDefault();
-        const row = event.target.closest('tr');
-        const mesAno = row.querySelector('td:first-child').textContent;
-        const formData = {
-            mesAno: mesAno,
-            totalReceitas: parseFloat(row.querySelector('input[name="totalReceitas"]').value) || 0,
-            totalDespesas: parseFloat(row.querySelector('input[name="totalDespesas"]').value) || 0,
-            saldo: parseFloat(row.querySelector('input[name="saldo"]').value) || 0
-        };
-
-        fetch(`/api/v1/relatorio/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error('Erro ao atualizar: ' + response.statusText);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Atualizado:', data);
-                alert('Relatório atualizado com sucesso!');
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro ao atualizar o relatório: ' + error.message);
-            });
-    }
-
-    // Função para deletar um relatório
-    function deleteRelatorio(id, event) {
-        event.preventDefault();
-        if (confirm('Tem certeza que deseja deletar este relatório?')) {
-            fetch(`/api/v1/relatorio/${id}`, { method: 'DELETE' })
-                .then(response => {
-                    if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
-                    alert('Relatório deletado com sucesso!');
-                    location.reload();
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Erro ao deletar o relatório: ' + error.message);
-                });
-        }
-    }
-
-    console.log('Script carregado');
-</script>
-
-<!-- Estilos Adicionais para Melhorar a Aparência -->
-<style>
-    .form-section, .table-section { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px; padding: 20px; }
-    .form-group { margin-bottom: 15px; }
-    .form-input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
-    .btn-submit { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn-submit:hover { background-color: #45a049; }
-    .report-table { border-radius: 8px; overflow: hidden; width: 100%; }
-    .table-input { width: 80px; padding: 4px; border: 1px solid #ddd; border-radius: 4px; }
-    .btn-action { background-color: #2196F3; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
-    .btn-action:hover { background-color: #1976D2; }
-    .btn-delete { background-color: #f44336; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; }
-    .btn-delete:hover { background-color: #d32f2f; }
-    .btn-link { background-color: #9C27B0; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
-    .btn-link:hover { background-color: #7B1FA2; }
-</style>
+    <!-- Estilos Adicionais -->
+    <style>
+        .table-section { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px; padding: 20px; }
+        .report-table { border-radius: 8px; overflow: hidden; width: 100%; }
+        .btn-link { background-color: #9C27B0; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
+        .btn-link:hover { background-color: #7B1FA2; }
+    </style>
 </body>
 </html>

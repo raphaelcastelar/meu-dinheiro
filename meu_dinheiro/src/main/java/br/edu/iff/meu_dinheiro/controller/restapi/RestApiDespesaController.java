@@ -14,16 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.iff.meu_dinheiro.entities.Despesa;
 import br.edu.iff.meu_dinheiro.repository.DespesaRepository;
+import br.edu.iff.meu_dinheiro.service.RelatorioService;
 
 @RestController
 @RequestMapping("/api/v1/despesa")
 public class RestApiDespesaController {
 
     private final DespesaRepository despesaRepository;
+    private final RelatorioService relatorioService;
 
     @Autowired
-    public RestApiDespesaController(DespesaRepository despesaRepository) {
-        this.despesaRepository = despesaRepository;
+    public RestApiDespesaController(DespesaRepository despesasRepository, RelatorioService relatorioService) {
+        this.despesaRepository = despesasRepository;
+        this.relatorioService = relatorioService;
     }
 
     @PostMapping
@@ -32,6 +35,7 @@ public class RestApiDespesaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Despesa savedDespesa = despesaRepository.save(despesa);
+        relatorioService.atualizarAposAdicionarDespesa(savedDespesa); // Atualiza relatório
         return new ResponseEntity<>(savedDespesa, HttpStatus.CREATED);
     }
 

@@ -14,16 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.iff.meu_dinheiro.entities.Receita;
 import br.edu.iff.meu_dinheiro.repository.ReceitaRepository;
+import br.edu.iff.meu_dinheiro.service.RelatorioService;
 
 @RestController
 @RequestMapping("/api/v1/receita")
 public class RestApiReceitaController {
 
     private final ReceitaRepository receitaRepository;
+    private final RelatorioService relatorioService;
 
     @Autowired
-    public RestApiReceitaController(ReceitaRepository receitaRepository) {
+    public RestApiReceitaController(ReceitaRepository receitaRepository, RelatorioService relatorioService) {
         this.receitaRepository = receitaRepository;
+        this.relatorioService = relatorioService;
     }
 
     @PostMapping
@@ -32,6 +35,7 @@ public class RestApiReceitaController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Receita savedReceita = receitaRepository.save(receita);
+        relatorioService.atualizarAposAdicionarReceita(savedReceita);
         return new ResponseEntity<>(savedReceita, HttpStatus.CREATED);
     }
 
@@ -51,7 +55,9 @@ public class RestApiReceitaController {
                     if (receitaDetails.getData() != null && receitaDetails.getData().matches("\\d{4}-\\d{2}")) {
                         receita.setData(receitaDetails.getData());
                     }
-                    return new ResponseEntity<>(receitaRepository.save(receita), HttpStatus.OK);
+                    Receita updatedReceita = receitaRepository.save(receita);
+                    relatorioService.atualizarRelatorioDoMes(updatedReceita.getData()); // Atualiza relatório
+                    return new ResponseEntity<>(updatedReceita, HttpStatus.OK);
                 })
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -59,7 +65,9 @@ public class RestApiReceitaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReceita(@PathVariable Long id) {
         if (receitaRepository.existsById(id)) {
+            Receita receita = receitaRepository.findById(id).get();
             receitaRepository.deleteById(id);
+            relatorioService.atualizarRelatorioDoMes(receita.getData()); // Atualiza relatório
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

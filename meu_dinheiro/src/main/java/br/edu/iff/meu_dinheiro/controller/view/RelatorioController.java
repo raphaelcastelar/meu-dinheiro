@@ -8,33 +8,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.edu.iff.meu_dinheiro.entities.Relatorio;
-import br.edu.iff.meu_dinheiro.repository.RelatorioRepository;
+import br.edu.iff.meu_dinheiro.service.RelatorioService;
 
 @Controller
 @RequestMapping("/user/relatorio")
 public class RelatorioController {
 
-    private final RelatorioRepository relatorioRepository;
+    private final RelatorioService relatorioService;
 
     @Autowired
-    public RelatorioController(RelatorioRepository relatorioRepository) {
-        this.relatorioRepository = relatorioRepository;
+    public RelatorioController(RelatorioService relatorioService) {
+        this.relatorioService = relatorioService;
     }
 
     @GetMapping
     public String showRelatorioPage(Model model) {
-        model.addAttribute("relatorios", relatorioRepository.findAll());
-        model.addAttribute("newRelatorio", new Relatorio());
-        model.addAttribute("monthlyReport", new Relatorio()); // Para o resumo original, se necessário
+        model.addAttribute("relatorios", relatorioService.findAll()); // Exibe todos os relatórios calculados
         return "relatorio";
     }
 
     @GetMapping(params = "mesAno")
     public String updateMonth(@RequestParam String mesAno, Model model) {
-        Relatorio monthlyReport = relatorioRepository.findByMesAno(mesAno);
-        model.addAttribute("monthlyReport", monthlyReport != null ? monthlyReport : new Relatorio());
-        model.addAttribute("relatorios", relatorioRepository.findAll());
-        model.addAttribute("newRelatorio", new Relatorio());
+        relatorioService.atualizarRelatorioDoMes(mesAno); // Atualiza o relatório do mês
+        model.addAttribute("monthlyReport", relatorioService.findAll().iterator().next()); // Ajuste para mostrar o relatório do mês
+        model.addAttribute("relatorios", relatorioService.findAll());
         return "relatorio";
     }
 }
