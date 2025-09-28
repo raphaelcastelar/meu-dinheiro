@@ -29,6 +29,13 @@
                 <input type="number" name="valor" id="valor" step="0.01" required class="form-input" />
             </div>
             <div class="form-group">
+                <label for="categoriaId">Categoria:</label>
+                <select name="categoriaId" id="categoriaId" required class="form-input">
+                    <option value="">Selecione uma categoria</option>
+                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="data">Data (yyyy-MM):</label>
                 <input type="text" name="data" id="data" required pattern="\d{4}-\d{2}" class="form-input" />
             </div>
@@ -44,6 +51,7 @@
             <tr>
                 <th>Descrição</th>
                 <th>Valor</th>
+                <th>Categoria</th>
                 <th>Data</th>
                 <th>Ações</th>
             </tr>
@@ -52,6 +60,7 @@
             <tr th:each="despesa : ${despesas}">
                 <td th:text="${despesa.descricao}">N/A</td>
                 <td><input type="number" name="valor" th:value="${despesa.valor}" step="0.01" class="table-input" /></td>
+                <td th:text="${despesa.categoria.nome}">N/A</td>
                 <td><input type="text" name="data" th:value="${despesa.data}" pattern="\d{4}-\d{2}" class="table-input" /></td>
                 <td>
                     <button th:onclick="'updateDespesa(' + ${despesa.id} + ', event)'" class="btn-action">Atualizar</button>
@@ -77,7 +86,8 @@
         const formData = {
             descricao: form.descricao.value,
             valor: parseFloat(form.valor.value) || 0,
-            data: form.data.value
+            data: form.data.value,
+            categoriaId: form.categoriaId.value // Adiciona o ID da categoria
         };
 
         fetch('/api/v1/despesa', {
@@ -109,7 +119,8 @@
         const formData = {
             descricao: descricao,
             valor: parseFloat(row.querySelector('input[name="valor"]').value) || 0,
-            data: row.querySelector('input[name="data"]').value
+            data: row.querySelector('input[name="data"]').value,
+            categoriaId: row.querySelector('select[name="categoria"]').value // Ajuste se usar select
         };
 
         fetch(`/api/v1/despesa/${id}`, {
