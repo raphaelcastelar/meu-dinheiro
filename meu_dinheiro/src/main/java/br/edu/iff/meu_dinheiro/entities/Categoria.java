@@ -1,22 +1,29 @@
 package br.edu.iff.meu_dinheiro.entities;
 
-import java.io.Serializable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 
-public class Categoria implements Serializable {
-    private static final long serialVersionUID = 1L;
+@Entity
+public class Categoria {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotBlank(message = "O nome da categoria não pode ser vazio.")
-    @Size(min = 3, max = 100, message = "O nome da categoria deve ter entre 3 e 100 caracteres.")
     private String nome;
+    private String descricao;
+    private TipoCategoria tipo; // Enumeração para tipo (RECEITA ou DESPESA)
 
+    // Construtores
     public Categoria() {}
 
-    public Categoria(Long id, String nome) {
-        this.id = id;
+    public Categoria(String nome, String descricao, TipoCategoria tipo) {
         this.nome = nome;
+        this.descricao = descricao;
+        this.tipo = tipo;
     }
 
     // Getters e Setters
@@ -24,23 +31,13 @@ public class Categoria implements Serializable {
     public void setId(Long id) { this.id = id; }
     public String getNome() { return nome; }
     public void setNome(String nome) { this.nome = nome; }
+    public String getDescricao() { return descricao; }
+    public void setDescricao(String descricao) { this.descricao = descricao; }
+    public TipoCategoria getTipo() { return tipo; }
+    public void setTipo(TipoCategoria tipo) { this.tipo = tipo; }
+}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Categoria other = (Categoria) obj;
-        if (id == null) {
-            return other.id == null;
-        } else return id.equals(other.id);
-    }
+// Enumeração TipoCategoria
+enum TipoCategoria {
+    RECEITA, DESPESA
 }

@@ -1,33 +1,36 @@
 package br.edu.iff.meu_dinheiro.service;
 
-import br.edu.iff.meu_dinheiro.entities.Categoria;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import br.edu.iff.meu_dinheiro.entities.Categoria;
+import br.edu.iff.meu_dinheiro.repository.CategoriaRepository;
+
 import java.util.List;
 
 @Service
 public class CategoriaService {
-    private List<Categoria> categorias = new ArrayList<>();
-    private Long nextId = 1L;
 
-    public CategoriaService() {
-        categorias.add(new Categoria(1L, "Alimentação"));
-        categorias.add(new Categoria(2L, "Lazer"));
-        categorias.add(new Categoria(3L, "Contas Fixas"));
+    private final CategoriaRepository categoriaRepository;
+
+    @Autowired
+    public CategoriaService(CategoriaRepository categoriaRepository) {
+        this.categoriaRepository = categoriaRepository;
     }
 
     public List<Categoria> findAll() {
-        return new ArrayList<>(categorias);
+        return categoriaRepository.findAll();
     }
 
     public void save(Categoria categoria) {
         if (categoria.getId() == null) {
-            categoria.setId(nextId++);
-            categorias.add(categoria);
+            categoriaRepository.save(categoria); // JPA gera o ID automaticamente
         } else {
-            categorias.removeIf(c -> c.getId().equals(categoria.getId()));
-            categorias.add(categoria);
+            categoriaRepository.save(categoria); // Atualiza existente
         }
+    }
+
+    public void deleteById(Long id) {
+        categoriaRepository.deleteById(id);
     }
 }
