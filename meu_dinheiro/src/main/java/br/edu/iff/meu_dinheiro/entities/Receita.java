@@ -1,9 +1,6 @@
 package br.edu.iff.meu_dinheiro.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 @Entity
@@ -17,6 +14,10 @@ public class Receita {
     private Double valor;
     private String data; // Formato: yyyy-MM
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false) // Relação obrigatória
+    private Categoria categoria;
+
     // Construtores
     public Receita() {}
 
@@ -24,6 +25,7 @@ public class Receita {
         this.descricao = descricao;
         this.valor = valor;
         this.data = data;
+        this.categoria = new Categoria();
     }
 
     // Getters e Setters
@@ -35,4 +37,6 @@ public class Receita {
     public void setValor(Double valor) { this.valor = valor; }
     public String getData() { return data; }
     public void setData(String data) { this.data = data; }
+    public Categoria getCategoria() { return categoria; }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 }
