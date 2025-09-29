@@ -48,6 +48,9 @@ Linguagem: Java 17
 - Template Engine: Thymeleaf
 - Frontend: HTML5, CSS3, JavaScript
 - Ferramentas de Build: Maven ou Gradle (conforme configuração do projeto)
+- Banco de Dados: H2 (em memória)
+- Swagger
+- APIs REST
 
 ---
 
@@ -74,9 +77,7 @@ git clone https://github.com/seu-usuario/meu-dinheiro.git
 
 cd meu-dinheiro
 
-* Configure o banco de dados:
-
-Crie um banco de dados PostgreSQL chamado meu_dinheiro.
+* Configure o banco de dados H2 (já integrado ao projeto):
 
 * Atualize o arquivo application.properties ou application.yml em src/main/resources com as credenciais do banco:
 
@@ -84,10 +85,6 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/meu_dinheiro
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 spring.jpa.hibernate.ddl-auto=update
-
-
-Certifique-se de que as tabelas sejam criadas automaticamente (ou execute os scripts SQL, se fornecidos).
-
 
 
 * Instale as dependências:
