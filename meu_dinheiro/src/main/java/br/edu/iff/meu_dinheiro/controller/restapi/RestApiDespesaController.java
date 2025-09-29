@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.iff.meu_dinheiro.repository.CategoriaRepository;
+import br.edu.iff.meu_dinheiro.entities.Categoria;
+
 import br.edu.iff.meu_dinheiro.entities.Despesa;
 import br.edu.iff.meu_dinheiro.repository.DespesaRepository;
 import br.edu.iff.meu_dinheiro.service.RelatorioService;
@@ -22,20 +25,27 @@ public class RestApiDespesaController {
 
     private final DespesaRepository despesaRepository;
     private final RelatorioService relatorioService;
+    private final CategoriaRepository categoriaRepository;
 
     @Autowired
-    public RestApiDespesaController(DespesaRepository despesasRepository, RelatorioService relatorioService) {
+    public RestApiDespesaController(DespesaRepository despesasRepository, RelatorioService relatorioService, CategoriaRepository categoriaRepository) {
         this.despesaRepository = despesasRepository;
         this.relatorioService = relatorioService;
+        this.categoriaRepository = categoriaRepository;
     }
 
     @PostMapping
     public ResponseEntity<Despesa> createDespesa(@RequestBody Despesa despesa) {
-        if (despesa.getData() == null || !despesa.getData().matches("\\d{4}-\\d{2}") || despesa.getDescricao() == null) {
+        if (despesa.getData() == null || !despesa.getData().matches("\\d{4}-\\d{2}") || despesa.getDescricao() == null || despesa.getCategoria() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        // Busca a categoria pelo ID enviado no JSON (categoriaId)
+        Long categoriaId = despesa.getCategoria().getId(); // Assume que o JSON envia o ID
+        Categoria categoria = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada com ID: " + categoriaId));
+        despesa.setCategoria(categoria); // Associa a categoria encontrada
         Despesa savedDespesa = despesaRepository.save(despesa);
-        relatorioService.atualizarAposAdicionarDespesa(savedDespesa); // Atualiza relatório
+        relatorioService.atualizarAposAdicionarDespesa(savedDespesa);
         return new ResponseEntity<>(savedDespesa, HttpStatus.CREATED);
     }
 
