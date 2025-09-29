@@ -19,18 +19,18 @@
     <!-- Formulário para Criar Nova Categoria -->
     <div class="form-section">
         <h3>Adicionar Nova Categoria</h3>
-        <form id="createCategoriaForm" onsubmit="submitForm(event)" class="form-container">
+        <form th:action="@{/categoria}" th:object="${newCategoria}" method="post" class="form-container">
             <div class="form-group">
                 <label for="nome">Nome:</label>
-                <input type="text" name="nome" id="nome" required class="form-input" />
+                <input type="text" th:field="*{nome}" id="nome" required class="form-input" />
             </div>
             <div class="form-group">
                 <label for="descricao">Descrição:</label>
-                <input type="text" name="descricao" id="descricao" class="form-input" />
+                <input type="text" th:field="*{descricao}" id="descricao" class="form-input" />
             </div>
             <div class="form-group">
                 <label for="tipo">Tipo:</label>
-                <select name="tipo" id="tipo" required class="form-input">
+                <select th:field="*{tipo}" id="tipo" required class="form-input">
                     <option value="RECEITA">Receita</option>
                     <option value="DESPESA">Despesa</option>
                 </select>
@@ -39,7 +39,6 @@
         </form>
     </div>
 
-    <!-- Lista de Categorias -->
     <div class="table-section">
         <h3>Lista de Categorias</h3>
         <table class="report-table">
@@ -54,106 +53,38 @@
             <tbody>
             <tr th:each="categoria : ${categorias}">
                 <td th:text="${categoria.nome}">N/A</td>
+<<<<<<< Updated upstream
                 <td><input type="text" name="descricao" th:value="${categoria.descricao}" class="table-input" /></td>
                 <td><select name="tipo" class="table-input">
                     <option th:value="RECEITA" th:selected="${categoria.tipo == 'RECEITA'}">Receita</option>
                     <option th:value="DESPESA" th:selected="${categoria.tipo == 'DESPESA'}">Despesa</option>
                 </select></td>
+=======
+>>>>>>> Stashed changes
                 <td>
-                    <button th:onclick="'updateCategoria(' + ${categoria.id} + ', event)'" class="btn-action">Atualizar</button>
-                    <button th:onclick="'deleteCategoria(' + ${categoria.id} + ', event)'" class="btn-delete">Deletar</button>
+                    <form th:action="@{/categoria/update/{id}(id=${categoria.id})}" method="post">
+                        <input type="hidden" name="_method" value="put" />
+                        <input type="text" name="descricao" th:value="${categoria.descricao}" class="table-input" />
+                </td>
+                <td>
+                    <select name="tipo" class="table-input">
+                        <option value="RECEITA" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).RECEITA}">Receita</option>
+                        <option value="DESPESA" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).DESPESA}">Despesa</option>
+                    </select>
+                </td>
+                <td>
+                    <button type="submit" class="btn-action">Atualizar</button>
+                    </form>
+                    <form th:action="@{/categoria/delete/{id}(id=${categoria.id})}" method="post">
+                        <input type="hidden" name="_method" value="delete" />
+                        <button type="submit" class="btn-delete" onclick="return confirm('Tem certeza que deseja deletar esta categoria?')">Deletar</button>
+                    </form>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-<!-- JavaScript -->
-<script th:inline="javascript">
-    // Função para criar uma nova categoria
-    function submitForm(event) {
-        event.preventDefault();
-        console.log('Formulário submetido');
-
-        const form = event.target;
-        const formData = {
-            nome: form.nome.value,
-            descricao: form.descricao.value,
-            tipo: form.tipo.value
-        };
-
-        fetch('/api/v1/categoria', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error('Erro ao salvar: ' + response.statusText);
-                console.log('Resposta:', response);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Sucesso:', data);
-                alert('Categoria salva com sucesso!');
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro ao salvar a categoria: ' + error.message);
-            });
-    }
-
-    // Função para atualizar uma categoria
-    function updateCategoria(id, event) {
-        event.preventDefault();
-        const row = event.target.closest('tr');
-        const nome = row.querySelector('td:first-child').textContent;
-        const formData = {
-            nome: nome,
-            descricao: row.querySelector('input[name="descricao"]').value,
-            tipo: row.querySelector('select[name="tipo"]').value
-        };
-
-        fetch(`/api/v1/categoria/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        })
-            .then(response => {
-                if (!response.ok) throw new Error('Erro ao atualizar: ' + response.statusText);
-                return response.json();
-            })
-            .then(data => {
-                console.log('Atualizado:', data);
-                alert('Categoria atualizada com sucesso!');
-                location.reload();
-            })
-            .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro ao atualizar a categoria: ' + error.message);
-            });
-    }
-
-    // Função para deletar uma categoria
-    function deleteCategoria(id, event) {
-        event.preventDefault();
-        if (confirm('Tem certeza que deseja deletar esta categoria?')) {
-            fetch(`/api/v1/categoria/${id}`, { method: 'DELETE' })
-                .then(response => {
-                    if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
-                    alert('Categoria deletada com sucesso!');
-                    location.reload();
-                })
-                .catch(error => {
-                    console.error('Erro:', error);
-                    alert('Erro ao deletar a categoria: ' + error.message);
-                });
-        }
-    }
-
-    console.log('Script carregado');
-</script>
 
 <!-- Estilos Adicionais -->
 <style>

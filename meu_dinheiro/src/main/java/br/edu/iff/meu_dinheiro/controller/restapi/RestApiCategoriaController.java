@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.iff.meu_dinheiro.entities.Categoria;
+import br.edu.iff.meu_dinheiro.exception.RegraDeNegocioException;
 import br.edu.iff.meu_dinheiro.repository.CategoriaRepository;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+
 
 @RestController
 @RequestMapping("/api/v1/categoria")
@@ -28,21 +33,17 @@ public class RestApiCategoriaController {
     }
 
     @PostMapping
-    public ResponseEntity<Categoria> createCategoria(@RequestBody Categoria categoria) {
+    public ResponseEntity<Categoria> createCategoria(@ModelAttribute Categoria categoria, UriComponentsBuilder uriBuilder) {
         if (categoria.getNome() == null || categoria.getNome().isEmpty() || categoria.getTipo() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw new RegraDeNegocioException("Nome e tipo são obrigatórios.");
         }
         Categoria savedCategoria = categoriaRepository.save(categoria);
-        return new ResponseEntity<>(savedCategoria, HttpStatus.CREATED);
-    }
-
-    @GetMapping
-    public ResponseEntity<Iterable<Categoria>> getAllCategorias() {
-        return new ResponseEntity<>(categoriaRepository.findAll(), HttpStatus.OK);
+        return ResponseEntity.created(uriBuilder.path("/api/v1/categoria/{id}").buildAndExpand(savedCategoria.getId()).toUri())
+                .body(savedCategoria);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categoria> updateCategoria(@PathVariable Long id, @RequestBody Categoria categoriaDetails) {
+    public ResponseEntity<Categoria> updateCategoria(@PathVariable Long id, @ModelAttribute Categoria categoriaDetails) {
         return categoriaRepository.findById(id)
                 .map(categoria -> {
                     if (categoriaDetails.getNome() != null && !categoriaDetails.getNome().isEmpty()) {
