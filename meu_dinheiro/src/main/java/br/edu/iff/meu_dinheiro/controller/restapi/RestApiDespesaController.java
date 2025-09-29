@@ -1,5 +1,8 @@
 package br.edu.iff.meu_dinheiro.controller.restapi;
 
+import br.edu.iff.meu_dinheiro.exception.CategoriaNaoEncontradaException;
+import br.edu.iff.meu_dinheiro.exception.RecursoNaoEncontradoException;
+import br.edu.iff.meu_dinheiro.exception.RegraDeNegocioException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.iff.meu_dinheiro.repository.CategoriaRepository;
 import br.edu.iff.meu_dinheiro.entities.Categoria;
+
 
 import br.edu.iff.meu_dinheiro.entities.Despesa;
 import br.edu.iff.meu_dinheiro.repository.DespesaRepository;
@@ -37,12 +41,12 @@ public class RestApiDespesaController {
     @PostMapping
     public ResponseEntity<Despesa> createDespesa(@RequestBody Despesa despesa) {
         if (despesa.getData() == null || !despesa.getData().matches("\\d{4}-\\d{2}") || despesa.getDescricao() == null || despesa.getCategoria() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw  new RegraDeNegocioException("Dados inválidos: data, descrição ou categoria ausentes.");
         }
         // Busca a categoria pelo ID enviado no JSON (categoriaId)
         Long categoriaId = despesa.getCategoria().getId(); // Assume que o JSON envia o ID
         Categoria categoria = categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada com ID: " + categoriaId));
+                .orElseThrow(() -> new CategoriaNaoEncontradaException(categoriaId));
         despesa.setCategoria(categoria); // Associa a categoria encontrada
         Despesa savedDespesa = despesaRepository.save(despesa);
         relatorioService.atualizarAposAdicionarDespesa(savedDespesa);
@@ -76,6 +80,6 @@ public class RestApiDespesaController {
             despesaRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw  new RecursoNaoEncontradoException("Despesa", id);
     }
 }

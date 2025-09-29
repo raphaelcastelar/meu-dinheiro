@@ -1,6 +1,9 @@
 package br.edu.iff.meu_dinheiro.controller.restapi;
 
 import br.edu.iff.meu_dinheiro.entities.Categoria;
+import br.edu.iff.meu_dinheiro.exception.CategoriaNaoEncontradaException;
+import br.edu.iff.meu_dinheiro.exception.RecursoNaoEncontradoException;
+import br.edu.iff.meu_dinheiro.exception.RegraDeNegocioException;
 import br.edu.iff.meu_dinheiro.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +39,12 @@ public class RestApiReceitaController {
     @PostMapping
     public ResponseEntity<Receita> createReceita(@RequestBody Receita receita) {
         if (receita.getData() == null || !receita.getData().matches("\\d{4}-\\d{2}") || receita.getDescricao() == null || receita.getCategoria() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            throw  new RegraDeNegocioException("Regra de negócio violada: data, descrição ou categoria ausentes.");
         }
         // Busca a categoria pelo ID enviado no JSON (categoriaId)
         Long categoriaId = receita.getCategoria().getId(); // Assume que o JSON envia o ID
         Categoria categoria = categoriaRepository.findById(categoriaId)
-                .orElseThrow(() -> new RuntimeException("Categoria não encontrada com ID: " + categoriaId));
+                .orElseThrow(() -> new CategoriaNaoEncontradaException(categoriaId));
         receita.setCategoria(categoria); // Associa a categoria encontrada
         Receita savedReceita = receitaRepository.save(receita);
         relatorioService.atualizarAposAdicionarReceita(savedReceita);
@@ -79,6 +82,6 @@ public class RestApiReceitaController {
             relatorioService.atualizarRelatorioDoMes(receita.getData()); // Atualiza relatório
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw  new RecursoNaoEncontradoException("Receita", id);
     }
 }

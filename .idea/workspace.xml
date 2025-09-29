@@ -5,9 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4cda09f8-b696-48d3-941b-01791a4f17cd" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/exception/CategoriaNaoEncontradaException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/exception/RecursoNaoEncontradoException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/exception/RegraDeNegocioException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/despesa.html" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/despesa.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/receita.html" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/resources/templates/receita.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiCategoriaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiCategoriaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiDespesaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiDespesaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiReceitaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiReceitaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiRelatorioController.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/controller/restapi/RestApiRelatorioController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/exception/ApiGlobalAdviceException.java" beforeDir="false" afterPath="$PROJECT_DIR$/meu_dinheiro/src/main/java/br/edu/iff/meu_dinheiro/exception/ApiGlobalAdviceException.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,6 +25,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Exception" />
       </list>
     </option>
   </component>

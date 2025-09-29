@@ -1,5 +1,6 @@
 package br.edu.iff.meu_dinheiro.controller.restapi;
 
+import br.edu.iff.meu_dinheiro.exception.CategoriaNaoEncontradaException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,6 +67,6 @@ public class RestApiCategoriaController {
             categoriaRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        throw new CategoriaNaoEncontradaException(id);
     }
 }

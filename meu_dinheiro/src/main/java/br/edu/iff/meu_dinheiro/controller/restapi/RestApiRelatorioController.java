@@ -1,5 +1,7 @@
 package br.edu.iff.meu_dinheiro.controller.restapi;
 
+import br.edu.iff.meu_dinheiro.exception.RecursoNaoEncontradoException;
+import br.edu.iff.meu_dinheiro.exception.RelatorioNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +51,7 @@ public class RestApiRelatorioController {
             Relatorio updatedRelatorio = relatorioRepository.save(relatorioDetails);
             return new ResponseEntity<>(updatedRelatorio, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw  new RelatorioNaoEncontradoException("MesAno do relatorio nao encontrado: " + id);
         }
     }
 
@@ -59,7 +61,7 @@ public class RestApiRelatorioController {
             relatorioRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw  new RelatorioNaoEncontradoException("MesAno do relatorio nao encontrado: " + id);
         }
     }
 }
