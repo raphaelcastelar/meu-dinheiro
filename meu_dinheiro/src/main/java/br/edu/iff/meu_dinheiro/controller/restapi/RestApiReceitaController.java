@@ -1,5 +1,7 @@
 package br.edu.iff.meu_dinheiro.controller.restapi;
 
+import br.edu.iff.meu_dinheiro.entities.Categoria;
+import br.edu.iff.meu_dinheiro.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,18 +24,25 @@ public class RestApiReceitaController {
 
     private final ReceitaRepository receitaRepository;
     private final RelatorioService relatorioService;
+    private final CategoriaRepository categoriaRepository;
 
     @Autowired
-    public RestApiReceitaController(ReceitaRepository receitaRepository, RelatorioService relatorioService) {
+    public RestApiReceitaController(ReceitaRepository receitaRepository, RelatorioService relatorioService, CategoriaRepository categoriaRepository) {
         this.receitaRepository = receitaRepository;
         this.relatorioService = relatorioService;
+        this.categoriaRepository = categoriaRepository;
     }
 
     @PostMapping
     public ResponseEntity<Receita> createReceita(@RequestBody Receita receita) {
-        if (receita.getData() == null || !receita.getData().matches("\\d{4}-\\d{2}") || receita.getDescricao() == null) {
+        if (receita.getData() == null || !receita.getData().matches("\\d{4}-\\d{2}") || receita.getDescricao() == null || receita.getCategoria() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+        // Busca a categoria pelo ID enviado no JSON (categoriaId)
+        Long categoriaId = receita.getCategoria().getId(); // Assume que o JSON envia o ID
+        Categoria categoria = categoriaRepository.findById(categoriaId)
+                .orElseThrow(() -> new RuntimeException("Categoria não encontrada com ID: " + categoriaId));
+        receita.setCategoria(categoria); // Associa a categoria encontrada
         Receita savedReceita = receitaRepository.save(receita);
         relatorioService.atualizarAposAdicionarReceita(savedReceita);
         return new ResponseEntity<>(savedReceita, HttpStatus.CREATED);
@@ -72,4 +81,5 @@ public class RestApiReceitaController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+}
 }
