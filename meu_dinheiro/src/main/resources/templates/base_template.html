@@ -30,8 +30,8 @@
         <nav>
             <ul>
                 <li><a th:href="@{/principal/{id}(id=${userId}, nome=${userName} ?: 'Usuário')}" th:text="#{app.welcome(${userName} ?: 'Usuário')}">Bem-vindo</a></li>
-                <li><a th:href="@{/despesa}">Despesas</a></li>
-                <li><a th:href="@{/receita}">Receitas</a></li>
+                <li><a th:href="@{/user/despesa}">Despesas</a></li>
+                <li><a th:href="@{/user/receita}">Receitas</a></li>
                 <li><a th:href="@{/user/dashboard}">Dashboard</a></li>
                 <li><a th:href="@{/admin/dashboard}" th:if="${isAdmin}">Admin</a></li>
                 <li><a th:href="@{/principal/logout}" th:text="#{app.logout} ?: 'Sair'">Sair</a></li>
