@@ -7,7 +7,6 @@
 
 <!-- Conteúdo Principal -->
 <div th:replace="~{base_template :: content(mainTitle='Despesas Mensais', subTitle='Gerencie suas despesas financeiras por período.')}">
-    <!-- Inserir conteúdo personalizado dentro do div.content -->
     <div th:insert="~{this :: #contentFragment}"></div>
 </div>
 
@@ -60,7 +59,7 @@
             <tr th:each="despesa : ${despesas}">
                 <td th:text="${despesa.descricao}">N/A</td>
                 <td><input type="number" name="valor" th:value="${despesa.valor}" step="0.01" class="table-input" /></td>
-                <td th:text="${despesa.categoria.nome}">N/A</td>
+                <td th:text="${despesa.categoria != null ? despesa.categoria.nome : 'Sem categoria'}" th:attr="data-categoria-id=${despesa.categoria != null ? despesa.categoria.id : null}">N/A</td>
                 <td><input type="text" name="data" th:value="${despesa.data}" pattern="\d{4}-\d{2}" class="table-input" /></td>
                 <td>
                     <button th:onclick="'updateDespesa(' + ${despesa.id} + ', event)'" class="btn-action">Atualizar</button>
@@ -87,7 +86,7 @@
             descricao: form.descricao.value,
             valor: parseFloat(form.valor.value) || 0,
             data: form.data.value,
-            categoriaId: form.categoriaId.value // Adiciona o ID da categoria
+            categoria: { id: parseInt(form.categoriaId.value) } // Envia apenas o ID da categoria
         };
 
         fetch('/api/v1/despesa', {
@@ -97,7 +96,6 @@
         })
             .then(response => {
                 if (!response.ok) throw new Error('Erro ao salvar: ' + response.statusText);
-                console.log('Resposta:', response);
                 return response.json();
             })
             .then(data => {
@@ -111,7 +109,6 @@
             });
     }
 
-    // Função para atualizar uma despesa
     function updateDespesa(id, event) {
         event.preventDefault();
         const row = event.target.closest('tr');
@@ -120,10 +117,10 @@
             descricao: descricao,
             valor: parseFloat(row.querySelector('input[name="valor"]').value) || 0,
             data: row.querySelector('input[name="data"]').value,
-            categoriaId: row.querySelector('select[name="categoria"]').value // Ajuste se usar select
+            categoria: { id: parseInt(row.querySelector('td:nth-child(3)').getAttribute('data-categoria-id')) || null }
         };
 
-        fetch(`/api/v1/despesa/${id}`, {
+        fetch(/api/v1/despesa/${id}, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -143,13 +140,16 @@
             });
     }
 
-    // Função para deletar uma despesa
     function deleteDespesa(id, event) {
         event.preventDefault();
         if (confirm('Tem certeza que deseja deletar esta despesa?')) {
-            fetch(`/api/v1/despesa/${id}`, { method: 'DELETE' })
+            fetch(/api/v1/despesa/${id}, {
+                method: 'DELETE'
+            })
                 .then(response => {
-                    if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error('Erro ao deletar: ' + text); });
+                    }
                     alert('Despesa deletada com sucesso!');
                     location.reload();
                 })

@@ -60,7 +60,7 @@
             <tr th:each="receita : ${receitas}">
                 <td th:text="${receita.descricao}">N/A</td>
                 <td><input type="number" name="valor" th:value="${receita.valor}" step="0.01" class="table-input" /></td>
-                <td th:text="${receita.categoria.nome}">N/A</td>
+                <td th:text="${receita.categoria != null ? receita.categoria.nome : 'Sem categoria'}" th:attr="data-categoria-id=${receita.categoria != null ? receita.categoria.id : null}">N/A</td>
                 <td><input type="text" name="data" th:value="${receita.data}" pattern="\d{4}-\d{2}" class="table-input" /></td>
                 <td>
                     <button th:onclick="'updateReceita(' + ${receita.id} + ', event)'" class="btn-action">Atualizar</button>
@@ -87,7 +87,7 @@
             descricao: form.descricao.value,
             valor: parseFloat(form.valor.value) || 0,
             data: form.data.value,
-            categoriaId: form.categoriaId.value // Adiciona o ID da categoria
+            categoria: { id: parseInt(form.categoriaId.value) } // Envia como objeto com id
         };
 
         fetch('/api/v1/receita', {
@@ -97,7 +97,6 @@
         })
             .then(response => {
                 if (!response.ok) throw new Error('Erro ao salvar: ' + response.statusText);
-                console.log('Resposta:', response);
                 return response.json();
             })
             .then(data => {
@@ -111,7 +110,6 @@
             });
     }
 
-    // Função para atualizar uma receita
     function updateReceita(id, event) {
         event.preventDefault();
         const row = event.target.closest('tr');
@@ -120,10 +118,10 @@
             descricao: descricao,
             valor: parseFloat(row.querySelector('input[name="valor"]').value) || 0,
             data: row.querySelector('input[name="data"]').value,
-            categoriaId: row.querySelector('select[name="categoria"]').value // Ajuste se usar select
+            categoria: { id: /* Use o ID da categoria atual, se disponível */ parseInt(row.querySelector('td:nth-child(3)').getAttribute('data-categoria-id')) || null }
         };
 
-        fetch(`/api/v1/receita/${id}`, {
+        fetch(/api/v1/receita/${id}, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -143,13 +141,16 @@
             });
     }
 
-    // Função para deletar uma receita
     function deleteReceita(id, event) {
         event.preventDefault();
         if (confirm('Tem certeza que deseja deletar esta receita?')) {
-            fetch(`/api/v1/receita/${id}`, { method: 'DELETE' })
+            fetch(/api/v1/receita/${id}, {
+                method: 'DELETE'
+            })
                 .then(response => {
-                    if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error('Erro ao deletar: ' + text); });
+                    }
                     alert('Receita deletada com sucesso!');
                     location.reload();
                 })
