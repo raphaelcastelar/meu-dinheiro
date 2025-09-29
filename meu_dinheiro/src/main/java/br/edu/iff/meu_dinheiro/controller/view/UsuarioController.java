@@ -19,14 +19,15 @@ public class UsuarioController {
         //return "despesa"; // Retorna despesa.html
     //}
 
-    @GetMapping("/categoria")
-    public String showCategories(Model model) {
-        return "categoria"; // Retorna categoria.html
-    }
+    //@GetMapping("/categoria")
+    //public String showCategories(Model model) {
+        //return "categoria"; // Retorna categoria.html
+    //}
 
     // Opcional: Redirecionar /user/relatorio para o RelatorioController
     //@GetMapping("/relatorio")
     //public String redirectToRelatorio() {
         //return "redirect:/user/relatorio"; // Redireciona para o RelatorioController
     //}
+}
 }
