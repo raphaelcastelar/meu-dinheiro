@@ -56,8 +56,8 @@
                 <td th:text="${categoria.nome}">N/A</td>
                 <td><input type="text" name="descricao" th:value="${categoria.descricao}" class="table-input" /></td>
                 <td><select name="tipo" class="table-input">
-                    <option th:value="RECEITA" th:selected="${categoria.tipo == 'RECEITA'}">Receita</option>
-                    <option th:value="DESPESA" th:selected="${categoria.tipo == 'DESPESA'}">Despesa</option>
+                    <option th:value="'RECEITA'" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).RECEITA}">Receita</option>
+                    <option th:value="'DESPESA'" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).DESPESA}">Despesa</option>
                 </select></td>
                 <td>
                     <button th:onclick="'updateCategoria(' + ${categoria.id} + ', event)'" class="btn-action">Atualizar</button>
