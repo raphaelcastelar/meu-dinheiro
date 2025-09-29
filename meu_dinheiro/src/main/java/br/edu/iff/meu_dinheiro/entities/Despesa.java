@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Despesa {
@@ -17,6 +19,10 @@ public class Despesa {
     private Double valor;
     private String data; // Formato: yyyy-MM
 
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false) // Relação obrigatória
+    private Categoria categoria;
+
     // Construtores
     public Despesa() {}
 
@@ -24,6 +30,7 @@ public class Despesa {
         this.descricao = descricao;
         this.valor = valor;
         this.data = data;
+        this.categoria = new Categoria();
     }
 
     // Getters e Setters
@@ -35,4 +42,6 @@ public class Despesa {
     public void setValor(Double valor) { this.valor = valor; }
     public String getData() { return data; }
     public void setData(String data) { this.data = data; }
+    public Categoria getCategoria() { return categoria; }
+    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
 }
