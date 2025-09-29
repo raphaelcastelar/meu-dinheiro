@@ -56,8 +56,8 @@
                 <td th:text="${categoria.nome}">N/A</td>
                 <td><input type="text" name="descricao" th:value="${categoria.descricao}" class="table-input" /></td>
                 <td><select name="tipo" class="table-input">
-                    <option th:value="'RECEITA'" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).RECEITA}">Receita</option>
-                    <option th:value="'DESPESA'" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).DESPESA}">Despesa</option>
+                    <option th:value="RECEITA" th:selected="${categoria.tipo == 'RECEITA'}">Receita</option>
+                    <option th:value="DESPESA" th:selected="${categoria.tipo == 'DESPESA'}">Despesa</option>
                 </select></td>
                 <td>
                     <button th:onclick="'updateCategoria(' + ${categoria.id} + ', event)'" class="btn-action">Atualizar</button>
@@ -71,6 +71,7 @@
 
 <!-- JavaScript -->
 <script th:inline="javascript">
+    // Função para criar uma nova categoria
     function submitForm(event) {
         event.preventDefault();
         console.log('Formulário submetido');
@@ -103,6 +104,7 @@
             });
     }
 
+    // Função para atualizar uma categoria
     function updateCategoria(id, event) {
         event.preventDefault();
         const row = event.target.closest('tr');
@@ -113,7 +115,7 @@
             tipo: row.querySelector('select[name="tipo"]').value
         };
 
-        fetch(/api/v1/categoria/$,{id}, {
+        fetch(`/api/v1/categoria/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -133,10 +135,11 @@
             });
     }
 
+    // Função para deletar uma categoria
     function deleteCategoria(id, event) {
         event.preventDefault();
         if (confirm('Tem certeza que deseja deletar esta categoria?')) {
-            fetch(/api/v1/categoria/$,{id}, { method: 'DELETE' })
+            fetch(`/api/v1/categoria/${id}`, { method: 'DELETE' })
                 .then(response => {
                     if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
                     alert('Categoria deletada com sucesso!');
