@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.iff.meu_dinheiro.entities.Categoria;
+import br.edu.iff.meu_dinheiro.entities.TipoCategoria;
 import br.edu.iff.meu_dinheiro.repository.CategoriaRepository;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/categoria")
@@ -68,5 +71,11 @@ public class RestApiCategoriaController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         throw new CategoriaNaoEncontradaException(id);
+    }
+
+    @GetMapping("/tipo/{tipo}")
+    public ResponseEntity<List<Categoria>> getCategoriasByTipo(@PathVariable TipoCategoria tipo) {
+        List<Categoria> categorias = categoriaRepository.findByTipo(tipo);
+        return ResponseEntity.ok(categorias);
     }
 }
