@@ -30,4 +30,3 @@ public class UsuarioController {
         //return "redirect:/user/relatorio"; // Redireciona para o RelatorioController
     //}
 }
-}

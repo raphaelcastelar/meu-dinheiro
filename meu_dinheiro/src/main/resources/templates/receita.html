@@ -121,7 +121,7 @@
             categoria: { id: /* Use o ID da categoria atual, se disponível */ parseInt(row.querySelector('td:nth-child(3)').getAttribute('data-categoria-id')) || null }
         };
 
-        fetch(/api/v1/receita/${id}, {
+        fetch(/api/v1/receita/$,{id}, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -144,7 +144,7 @@
     function deleteReceita(id, event) {
         event.preventDefault();
         if (confirm('Tem certeza que deseja deletar esta receita?')) {
-            fetch(/api/v1/receita/${id}, {
+            fetch(/api/v1/receita/$,{id}, {
                 method: 'DELETE'
             })
                 .then(response => {

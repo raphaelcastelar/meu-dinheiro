@@ -113,7 +113,7 @@
             tipo: row.querySelector('select[name="tipo"]').value
         };
 
-        fetch(/api/v1/categoria/${id}, {
+        fetch(/api/v1/categoria/$,{id}, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -136,7 +136,7 @@
     function deleteCategoria(id, event) {
         event.preventDefault();
         if (confirm('Tem certeza que deseja deletar esta categoria?')) {
-            fetch(/api/v1/categoria/${id}, { method: 'DELETE' })
+            fetch(/api/v1/categoria/$,{id}, { method: 'DELETE' })
                 .then(response => {
                     if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
                     alert('Categoria deletada com sucesso!');
