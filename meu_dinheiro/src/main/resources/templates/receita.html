@@ -87,7 +87,7 @@
             descricao: form.descricao.value,
             valor: parseFloat(form.valor.value) || 0,
             data: form.data.value,
-            categoria: { id: parseInt(form.categoriaId.value) } // Envia como objeto com id
+            categoria: { id: parseInt(form.categoriaId.value) }
         };
 
         fetch('/api/v1/receita', {
@@ -110,6 +110,7 @@
             });
     }
 
+    // Função para atualizar uma receita
     function updateReceita(id, event) {
         event.preventDefault();
         const row = event.target.closest('tr');
@@ -121,7 +122,7 @@
             categoria: { id: /* Use o ID da categoria atual, se disponível */ parseInt(row.querySelector('td:nth-child(3)').getAttribute('data-categoria-id')) || null }
         };
 
-        fetch(/api/v1/receita/$,{id}, {
+        fetch(`/api/v1/receita/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -141,10 +142,11 @@
             });
     }
 
+    // Função para deletar uma receita
     function deleteReceita(id, event) {
         event.preventDefault();
         if (confirm('Tem certeza que deseja deletar esta receita?')) {
-            fetch(/api/v1/receita/$,{id}, {
+            fetch(`/api/v1/receita/${id}`, {
                 method: 'DELETE'
             })
                 .then(response => {

@@ -86,7 +86,7 @@
             descricao: form.descricao.value,
             valor: parseFloat(form.valor.value) || 0,
             data: form.data.value,
-            categoria: { id: parseInt(form.categoriaId.value) } // Envia apenas o ID da categoria
+            categoria: { id: parseInt(form.categoriaId.value) }
         };
 
         fetch('/api/v1/despesa', {
@@ -120,7 +120,7 @@
             categoria: { id: parseInt(row.querySelector('td:nth-child(3)').getAttribute('data-categoria-id')) || null }
         };
 
-        fetch(/api/v1/despesa/$,{id}, {
+        fetch(`/api/v1/despesa/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(formData)
@@ -143,7 +143,7 @@
     function deleteDespesa(id, event) {
         event.preventDefault();
         if (confirm('Tem certeza que deseja deletar esta despesa?')) {
-            fetch(/api/v1/despesa/$,{id}, {
+            fetch(`/api/v1/despesa/${id}`, {
                 method: 'DELETE'
             })
                 .then(response => {
