@@ -6,11 +6,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import br.edu.iff.meu_dinheiro.entities.Relatorio;
 import br.edu.iff.meu_dinheiro.service.RelatorioService;
 
 @Controller
-@RequestMapping("/relatorio")
+@RequestMapping("/user/relatorio")
 public class RelatorioController {
 
     private final RelatorioService relatorioService;
@@ -21,11 +22,16 @@ public class RelatorioController {
     }
 
     @GetMapping
-    public String showReport(@RequestParam(required = false) String mesAno, Model model) {
-        Relatorio relatorio = relatorioService.generateReport(mesAno != null ? mesAno : 
-                java.time.LocalDate.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM")));
-        model.addAttribute("pageTitle", "Relatório");
-        model.addAttribute("monthlyReport", relatorio);
+    public String showRelatorioPage(Model model) {
+        model.addAttribute("relatorios", relatorioService.findAll()); // Exibe todos os relatórios calculados
+        return "relatorio";
+    }
+
+    @GetMapping(params = "mesAno")
+    public String updateMonth(@RequestParam String mesAno, Model model) {
+        relatorioService.atualizarRelatorioDoMes(mesAno); // Atualiza o relatório do mês
+        model.addAttribute("monthlyReport", relatorioService.findAll().iterator().next()); // Ajuste para mostrar o relatório do mês
+        model.addAttribute("relatorios", relatorioService.findAll());
         return "relatorio";
     }
 }

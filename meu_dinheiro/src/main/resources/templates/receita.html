@@ -1,82 +1,183 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{base_template :: baseHead}"></head>
-
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base_template :: baseHead (pageTitle='Receitas Mensais')}"></head>
 <body>
-    <header th:replace="~{base_template :: baseHeaderPage}"></header>
+<!-- Cabeçalho -->
+<header th:replace="~{base_template :: baseHeaderPage}"></header>
 
-    <div class="main-content max-w-5xl mx-auto p-6" style="background-color: #f3f4f6; font-family: 'Arial', sans-serif;">
-        <div th:replace="~{base_template :: content(mainTitle='Receita Mensal', subTitle='Visualize o resumo financeiro.')}"></div>
+<!-- Conteúdo Principal -->
+<div th:replace="~{base_template :: content(mainTitle='Receitas Mensais', subTitle='Gerencie suas receitas financeiras por período.')}">
+    <!-- Inserir conteúdo personalizado dentro do div.content -->
+    <div th:insert="~{this :: #contentFragment}"></div>
+</div>
 
-        <!-- Formulário para adicionar item temporário -->
-        <div class="card mt-6" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1.5rem;">
-            <h3 class="text-xl font-semibold text-gray-700 mb-4" style="color: #374151;">Adicionar Nova Receita</h3>
-            <form id="formReceita" class="space-y-6">
-                <div>
-                    <label for="descricao" class="block text-sm font-medium text-gray-600" style="color: #4b5563;">Descrição</label>
-                    <input type="text" id="descricao" name="descricao" class="mt-2 p-3 w-full border rounded-md" style="border-color: #d1d5db; border-radius: 6px; font-size: 1rem; padding: 0.75rem;" placeholder="Ex.: Salário" required>
-                </div>
-                <div>
-                    <label for="valor" class="block text-sm font-medium text-gray-600" style="color: #4b5563;">Valor (R$)</label>
-                    <input type="number" id="valor" name="valor" step="0.01" class="mt-2 p-3 w-full border rounded-md" style="border-color: #d1d5db; border-radius: 6px; font-size: 1rem; padding: 0.75rem;" placeholder="0.00" required>
-                </div>
-                <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" style="background-color: #3b82f6; color: white; border-radius: 6px; padding: 0.625rem 1.5rem; font-size: 1rem;">
-                    Adicionar Receita
-                </button>
-            </form>
-        </div>
+<!-- Rodapé -->
+<footer th:replace="~{base_template :: baseFooter}"></footer>
 
-        <!-- Tabela de Receitas -->
-        <div class="table-section mt-6" id="tableSection" style="margin-top: 1.5rem;">
-            <table id="tabelaReceitas" class="w-full border-collapse border border-gray-300">
-                <thead>
-                    <tr style="background-color: #e5e7eb;">
-                        <th class="border border-gray-300 px-4 py-2">Descrição</th>
-                        <th class="border border-gray-300 px-4 py-2">Valor (R$)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- As receitas adicionadas vão aparecer aqui -->
-                </tbody>
-            </table>
-        </div>
+<!-- Fragmento de Conteúdo Personalizado -->
+<div th:fragment="contentFragment" class="content">
+    <!-- Formulário para Criar Nova Receita -->
+    <div class="form-section">
+        <h3>Adicionar Nova Receita</h3>
+        <form id="createReceitaForm" onsubmit="submitForm(event)" class="form-container">
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <input type="text" name="descricao" id="descricao" required class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="valor">Valor:</label>
+                <input type="number" name="valor" id="valor" step="0.01" required class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="categoriaId">Categoria:</label>
+                <select name="categoriaId" id="categoriaId" required class="form-input">
+                    <option value="">Selecione uma categoria</option>
+                    <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="data">Data (yyyy-MM):</label>
+                <input type="text" name="data" id="data" required pattern="\d{4}-\d{2}" class="form-input" />
+            </div>
+            <button type="submit" class="btn-submit">Salvar Nova Receita</button>
+        </form>
     </div>
 
-    <footer th:replace="~{base_template :: baseFooter}"></footer>
+    <!-- Lista de Receitas -->
+    <div class="table-section">
+        <h3>Lista de Receitas</h3>
+        <table class="report-table">
+            <thead>
+            <tr>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Categoria</th>
+                <th>Data</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="receita : ${receitas}">
+                <td th:text="${receita.descricao}">N/A</td>
+                <td><input type="number" name="valor" th:value="${receita.valor}" step="0.01" class="table-input" /></td>
+                <td th:text="${receita.categoria != null ? receita.categoria.nome : 'Sem categoria'}" th:attr="data-categoria-id=${receita.categoria != null ? receita.categoria.id : null}">N/A</td>
+                <td><input type="text" name="data" th:value="${receita.data}" pattern="\d{4}-\d{2}" class="table-input" /></td>
+                <td>
+                    <button th:onclick="'updateReceita(' + ${receita.id} + ', event)'" class="btn-action">Atualizar</button>
+                    <button th:onclick="'deleteReceita(' + ${receita.id} + ', event)'" class="btn-delete">Deletar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-    <script>
-        document.getElementById("formReceita").addEventListener("submit", function(event) {
-            event.preventDefault(); // impede o reload da página
+<!-- JavaScript -->
+<script th:inline="javascript">
+    // Função para criar uma nova receita
+    function submitForm(event) {
+        event.preventDefault();
+        console.log('Formulário submetido');
 
-            const descricao = document.getElementById("descricao").value;
-            const valor = document.getElementById("valor").value;
+        const form = event.target;
+        const formData = {
+            descricao: form.descricao.value,
+            valor: parseFloat(form.valor.value) || 0,
+            data: form.data.value,
+            categoria: { id: parseInt(form.categoriaId.value) }
+        };
 
-            if (descricao && valor) {
-                const tabela = document.getElementById("tabelaReceitas").querySelector("tbody");
+        fetch('/api/v1/receita', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao salvar: ' + response.statusText);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Sucesso:', data);
+                alert('Receita salva com sucesso!');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao salvar a receita: ' + error.message);
+            });
+    }
 
-                // cria nova linha
-                const novaLinha = document.createElement("tr");
+    // Função para atualizar uma receita
+    function updateReceita(id, event) {
+        event.preventDefault();
+        const row = event.target.closest('tr');
+        const descricao = row.querySelector('td:first-child').textContent;
+        const formData = {
+            descricao: descricao,
+            valor: parseFloat(row.querySelector('input[name="valor"]').value) || 0,
+            data: row.querySelector('input[name="data"]').value,
+            categoria: { id: /* Use o ID da categoria atual, se disponível */ parseInt(row.querySelector('td:nth-child(3)').getAttribute('data-categoria-id')) || null }
+        };
 
-                // cria colunas
-                const tdDescricao = document.createElement("td");
-                tdDescricao.textContent = descricao;
-                tdDescricao.className = "border border-gray-300 px-4 py-2";
+        fetch(`/api/v1/receita/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao atualizar: ' + response.statusText);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Atualizado:', data);
+                alert('Receita atualizada com sucesso!');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar a receita: ' + error.message);
+            });
+    }
 
-                const tdValor = document.createElement("td");
-                tdValor.textContent = "R$ " + parseFloat(valor).toFixed(2);
-                tdValor.className = "border border-gray-300 px-4 py-2";
+    // Função para deletar uma receita
+    function deleteReceita(id, event) {
+        event.preventDefault();
+        if (confirm('Tem certeza que deseja deletar esta receita?')) {
+            fetch(`/api/v1/receita/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error('Erro ao deletar: ' + text); });
+                    }
+                    alert('Receita deletada com sucesso!');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao deletar a receita: ' + error.message);
+                });
+        }
+    }
 
-                // adiciona colunas na linha
-                novaLinha.appendChild(tdDescricao);
-                novaLinha.appendChild(tdValor);
+    console.log('Script carregado');
+</script>
 
-                // adiciona linha na tabela
-                tabela.appendChild(novaLinha);
-
-                // limpa inputs
-                document.getElementById("formReceita").reset();
-            }
-        });
-    </script>
+<!-- Estilos Adicionais -->
+<style>
+    .form-section, .table-section { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px; padding: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    .btn-submit { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-submit:hover { background-color: #45a049; }
+    .report-table { border-radius: 8px; overflow: hidden; width: 100%; }
+    .table-input { width: 100px; padding: 4px; border: 1px solid #ddd; border-radius: 4px; }
+    .btn-action { background-color: #2196F3; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+    .btn-action:hover { background-color: #1976D2; }
+    .btn-delete { background-color: #f44336; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-delete:hover { background-color: #d32f2f; }
+    .btn-link { background-color: #9C27B0; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
+    .btn-link:hover { background-color: #7B1FA2; }
+</style>
 </body>
 </html>

@@ -1,25 +1,173 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{base_template :: baseHead}"></head>
-
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{base_template :: baseHead (pageTitle='Categorias')}"></head>
 <body>
-    <header th:replace="~{base_template :: baseHeaderPage}"></header>
+<!-- Cabeçalho -->
+<header th:replace="~{base_template :: baseHeaderPage}"></header>
 
-    <div class="main-content">
-        <div th:replace="~{base_template :: content(mainTitle='Categorias', subTitle='Visualize as categorias existentes ou adicione uma.')}"></div>
-    </div>
+<!-- Conteúdo Principal -->
+<div th:replace="~{base_template :: content(mainTitle='Categorias', subTitle='Gerencie suas categorias de receitas e despesas.')}">
+    <!-- Inserir conteúdo personalizado dentro do div.content -->
+    <div th:insert="~{this :: #contentFragment}"></div>
+</div>
 
+<!-- Rodapé -->
+<footer th:replace="~{base_template :: baseFooter}"></footer>
+
+<!-- Fragmento de Conteúdo Personalizado -->
+<div th:fragment="contentFragment" class="content">
+    <!-- Formulário para Criar Nova Categoria -->
     <div class="form-section">
-        <div th:with="formTitle='Nova Categoria', routePrefix='categoria/save', item=${item != null ? item : #objects.instantiate('br.edu.iff.meu_dinheiro.entities.Categoria')}, 
-                      fieldNames=${T(java.util.Arrays).asList('nome')}"
-             th:replace="~{base_template :: form-section(formTitle=${formTitle}, routePrefix=${routePrefix}, item=${item}, fieldNames=${fieldNames})}"></div>
+        <h3>Adicionar Nova Categoria</h3>
+        <form id="createCategoriaForm" onsubmit="submitForm(event)" class="form-container">
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                <input type="text" name="nome" id="nome" required class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <input type="text" name="descricao" id="descricao" class="form-input" />
+            </div>
+            <div class="form-group">
+                <label for="tipo">Tipo:</label>
+                <select name="tipo" id="tipo" required class="form-input">
+                    <option value="RECEITA">Receita</option>
+                    <option value="DESPESA">Despesa</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit">Salvar Nova Categoria</button>
+        </form>
     </div>
 
+    <!-- Lista de Categorias -->
     <div class="table-section">
-        <div th:with="tableRoutePrefix='categoria', tableItems=${categorias != null ? categorias : T(java.util.Collections).emptyList()}"
-             th:replace="~{base_template :: table-section(routePrefix=${tableRoutePrefix}, items=${tableItems})}"></div>
+        <h3>Lista de Categorias</h3>
+        <table class="report-table">
+            <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Tipo</th>
+                <th>Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="categoria : ${categorias}">
+                <td th:text="${categoria.nome}">N/A</td>
+                <td><input type="text" name="descricao" th:value="${categoria.descricao}" class="table-input" /></td>
+                <td><select name="tipo" class="table-input">
+                    <option th:value="'RECEITA'" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).RECEITA}">Receita</option>
+                    <option th:value="'DESPESA'" th:selected="${categoria.tipo == T(br.edu.iff.meu_dinheiro.entities.TipoCategoria).DESPESA}">Despesa</option>
+                </select></td>
+                <td>
+                    <button th:onclick="'updateCategoria(' + ${categoria.id} + ', event)'" class="btn-action">Atualizar</button>
+                    <button th:onclick="'deleteCategoria(' + ${categoria.id} + ', event)'" class="btn-delete">Deletar</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
+</div>
 
-    <footer th:replace="~{base_template :: baseFooter}"></footer>
+<!-- JavaScript -->
+<script th:inline="javascript">
+    // Função para criar uma nova categoria
+    function submitForm(event) {
+        event.preventDefault();
+        console.log('Formulário submetido');
+
+        const form = event.target;
+        const formData = {
+            nome: form.nome.value,
+            descricao: form.descricao.value,
+            tipo: form.tipo.value
+        };
+
+        fetch('/api/v1/categoria', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao salvar: ' + response.statusText);
+                console.log('Resposta:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Sucesso:', data);
+                alert('Categoria salva com sucesso!');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao salvar a categoria: ' + error.message);
+            });
+    }
+
+    // Função para atualizar uma categoria
+    function updateCategoria(id, event) {
+        event.preventDefault();
+        const row = event.target.closest('tr');
+        const nome = row.querySelector('td:first-child').textContent;
+        const formData = {
+            nome: nome,
+            descricao: row.querySelector('input[name="descricao"]').value,
+            tipo: row.querySelector('select[name="tipo"]').value
+        };
+
+        fetch(`/api/v1/categoria/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Erro ao atualizar: ' + response.statusText);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Atualizado:', data);
+                alert('Categoria atualizada com sucesso!');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao atualizar a categoria: ' + error.message);
+            });
+    }
+
+    // Função para deletar uma categoria
+    function deleteCategoria(id, event) {
+        event.preventDefault();
+        if (confirm('Tem certeza que deseja deletar esta categoria?')) {
+            fetch(`/api/v1/categoria/${id}`, { method: 'DELETE' })
+                .then(response => {
+                    if (!response.ok) throw new Error('Erro ao deletar: ' + response.statusText);
+                    alert('Categoria deletada com sucesso!');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Erro:', error);
+                    alert('Erro ao deletar a categoria: ' + error.message);
+                });
+        }
+    }
+
+    console.log('Script carregado');
+</script>
+
+<!-- Estilos Adicionais -->
+<style>
+    .form-section, .table-section { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px; padding: 20px; }
+    .form-group { margin-bottom: 15px; }
+    .form-input { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+    .btn-submit { background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-submit:hover { background-color: #45a049; }
+    .report-table { border-radius: 8px; overflow: hidden; width: 100%; }
+    .table-input { width: 100px; padding: 4px; border: 1px solid #ddd; border-radius: 4px; }
+    .btn-action { background-color: #2196F3; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+    .btn-action:hover { background-color: #1976D2; }
+    .btn-delete { background-color: #f44336; color: white; padding: 4px 8px; border: none; border-radius: 4px; cursor: pointer; }
+    .btn-delete:hover { background-color: #d32f2f; }
+</style>
 </body>
 </html>

@@ -1,29 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{base_template :: baseHead}"></head>
-
+<head th:replace="~{base_template :: baseHead (pageTitle='Relatório Mensal')}"></head>
 <body>
-    <div th:replace="~{base_template :: content(mainTitle='Relatório Mensal', subTitle='Visualize o resumo financeiro do período selecionado.')}"></div>
+    <!-- Cabeçalho -->
+    <header th:replace="~{base_template :: baseHeaderPage}"></header>
 
-    <div class="content">
-        <h2>Resumo Financeiro - <span th:text="${monthlyReport?.mesAno ?: 'N/A'}"></span></h2>
-        <table>
-            <tr>
-                <th>Total de Receitas</th>
-                <td th:text="${'#{' + 'R$ ' + (monthlyReport?.totalReceitas ?: 0.0) + '}'}">R$ 0.00</td>
-            </tr>
-            <tr>
-                <th>Total de Despesas</th>
-                <td th:text="${'#{' + 'R$ ' + (monthlyReport?.totalDespesas ?: 0.0) + '}'}">R$ 0.00</td>
-            </tr>
-            <tr>
-                <th>Saldo</th>
-                <td th:text="${'#{' + 'R$ ' + (monthlyReport?.saldo ?: 0.0) + '}'}">R$ 0.00</td>
-            </tr>
-        </table>
-        <p><a th:href="@{/relatorio(mesAno=${#dates.format(#dates.createNow(), 'yyyy-MM')})}">Atualizar para o Mês Atual</a></p>
+    <!-- Conteúdo Principal -->
+    <div th:replace="~{base_template :: content(mainTitle='Relatório Mensal', subTitle='Visualize o resumo financeiro do período selecionado.')}">
+        <!-- Inserir conteúdo personalizado dentro do div.content -->
+        <div th:insert="~{this :: #contentFragment}"></div>
     </div>
 
-    <div th:replace="~{base_template :: baseFooter}"></div>
+    <!-- Rodapé -->
+    <footer th:replace="~{base_template :: baseFooter}"></footer>
+
+    <!-- Fragmento de Conteúdo Personalizado -->
+    <div th:fragment="contentFragment" class="content">
+        <!-- Lista de Relatórios -->
+        <div class="table-section">
+            <h3>Lista de Relatórios por Mês</h3>
+            <table class="report-table">
+                <thead>
+                    <tr>
+                        <th>Mês/Ano</th>
+                        <th>Total Receitas</th>
+                        <th>Total Despesas</th>
+                        <th>Saldo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="relatorio : ${relatorios}">
+                        <td th:text="${relatorio.mesAno}">N/A</td>
+                        <td th:text="${'#{' + 'R$ ' + relatorio.totalReceitas + '}'}">R$ 0.00</td>
+                        <td th:text="${'#{' + 'R$ ' + relatorio.totalDespesas + '}'}">R$ 0.00</td>
+                        <td th:text="${'#{' + 'R$ ' + relatorio.saldo + '}'}">R$ 0.00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botão para Atualizar para o Mês Atual -->
+        <p><a th:href="@{/user/relatorio(mesAno=${#dates.format(#dates.createNow(), 'yyyy-MM')})}" class="btn-link">Atualizar para o Mês Atual</a></p>
+    </div>
+
+    <!-- Estilos Adicionais -->
+    <style>
+        .table-section { background-color: #fff; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 20px; padding: 20px; }
+        .report-table { border-radius: 8px; overflow: hidden; width: 100%; }
+        .btn-link { background-color: #3e4049; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; display: inline-block; }
+        .btn-link:hover { background-color: #363336; }
+    </style>
 </body>
 </html>
